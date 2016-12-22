@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -14,27 +15,45 @@ import fr.imie.gestionepicerie.model.ArticleModel;
 import fr.imie.gestionepicerie.model.PanierModel;
 import fr.imie.gestionepicerie.model.VenteModel;
 
+
 public class PanierDAO {
 
 	private Connection connection = ConnectionDAO.getConnection();
 	private static final Logger logger = Logger.getLogger(ArticleDAO.class);
 
-	public void addPanier(PanierModel panier) throws SQLException {
-		String sql = "insert into panier (total, benefice) values (?,?)";
+//	public void createPanier(PanierModel panier) throws SQLException {
+//		String sql = "insert into panier (id_panier, date_modification) values (?,?)";
+//		logger.debug("ajoute un article dans le panier :" + sql);
+//		try {
+//			PreparedStatement ps = connection.prepareStatement(sql);
+//			ps.setInt(1, panier.getId());
+//			ps.setTimestamp(2, new Timestamp(panier.getDateModification().getTime()));
+//
+//			ps.executeUpdate();
+//		} catch (SQLException e) {
+//			throw new TechnicalException(e);
+//		}
+//	}
+	
+	public int createPanier1(PanierModel panier) throws SQLException {
+		String sql = "insert into panier (id_panier, date_modification) values (?,?)";
 		logger.debug("ajoute un article dans le panier :" + sql);
+		int id = 0;
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setDouble(1, panier.getTotal());
-			ps.setDouble(2, panier.getBenefice());
-
+			ps.setInt(1, panier.getId());
+			ps.setTimestamp(2, new Timestamp(panier.getDateModification().getTime()));
+			id = panier.getId();
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new TechnicalException(e);
 		}
+		return id;
+		
 	}
-
+	
 	public void delPanier(int id) {
-		String sql = "delete from panier where id_lot = ?";
+		String sql = "delete from panier where id_panier = ?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -44,14 +63,15 @@ public class PanierDAO {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void modifPanier(PanierModel panier) {
-		String sql = "update panier set total = ? , benefice = ? where id_panier = ?";
+		String sql = "update panier set id_panier = ? , date_modification = ? where id_panier = ?";
 		logger.debug("modification lot en base  :" + sql);
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setDouble(1, panier.getTotal());
-			ps.setDouble(2, panier.getBenefice());
+			
+			ps.setInt(1, panier.getId());
+			ps.setTimestamp(2, new Timestamp(panier.getDateModification().getTime()));
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -59,64 +79,71 @@ public class PanierDAO {
 		}
 
 	}
-
+	
 	public ArrayList<PanierModel> getListPaniers() throws BusinessException {
 		String sql = "select * from panier";
-        ArrayList<PanierModel> list = new ArrayList<>();
-		try {
+		ArrayList<PanierModel> list = new ArrayList<>();
+		try{
+			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				PanierModel panier = new PanierModel();
 				panier.setId(rs.getInt("id_panier"));
 				panier.setDateModification(rs.getDate("date_modification"));
-
+				
 				list.add(panier);
 			}
 			return list;
-		} catch (SQLException e) {
+		} catch (SQLException e){
 			e.printStackTrace();
 		}
 		return list;
 	}
-
-	public PanierModel getPanierById(int id) {
-		String sql = "select * from panier inner join vente_article on id_panier = panier_id where id_panier = ?";
-
-		try {
+	
+	
+	
+	public ArrayList<PanierModel> getPaniersByRef (String ref)throws BusinessException{
+		String sql = "select * from article join vente_article on article.reference = vente_article.article_reference join panier on vente_article.panier_id = panier.id_panier where article_reference like ?";
+		ArrayList<PanierModel> list = new ArrayList<>();
+		
+		try{
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setString(1, "%" + ref.toUpperCase() + "%");
 			ResultSet rs = ps.executeQuery();
 			PanierModel panier = new PanierModel();
-			while (rs.next()) {
-
+			while(rs.next()){
 				VenteModel vente = new VenteModel();
 				ArticleModel article = new ArticleModel();
-
+				
 				panier.setId(rs.getInt("id_panier"));
 				panier.setDateModification(rs.getDate("date_modification"));
-
+				
+				vente.setId(rs.getInt("id_vente"));
 				vente.setDate(rs.getDate("date_vente"));
 				vente.setQuantite(rs.getDouble("quantite"));
-
+				vente.setReference(rs.getString("article_reference"));
+												
 				article.setReference(rs.getString("reference"));
-				article.setLibelle(rs.getString("libelle"));
 				article.setPrixAchat(rs.getDouble("prix_achat"));
-				article.setPrixVente(rs.getDouble("prixe_vente"));
+				article.setPrixVente(rs.getDouble("prix_vente"));
+				article.setLibelle(rs.getString("libelle"));
 				article.setUniteMesure(rs.getString("unite_de_mesure"));
-
+				
 				vente.setArticle(article);
-				panier.addVente(vente);
-				return panier;
+				vente.setPanier(panier);				
+								
+				list.add(panier);
+				
 			}
-		} catch (SQLException e) {
-			throw new TechnicalException(e);
+		} catch (SQLException e){
+			throw new TechnicalException (e);	
 		}
-		return null;
+		return list;
 	}
-
-    public ArrayList<PanierModel> getPaniersByRef(String ref) {
-        return new ArrayList<PanierModel>();
-    }
-
+	
+	
+	
+	
+	
 }
