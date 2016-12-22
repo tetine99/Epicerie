@@ -35,7 +35,7 @@ public class PanierDAO {
 //		}
 //	}
 	
-	public int createPanier1(PanierModel panier) throws SQLException {
+	public int createPanier(PanierModel panier) throws SQLException {
 		String sql = "insert into panier (id_panier, date_modification) values (?,?)";
 		logger.debug("ajoute un article dans le panier :" + sql);
 		int id = 0;
