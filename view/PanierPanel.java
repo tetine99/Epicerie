@@ -56,7 +56,7 @@ public class PanierPanel extends JPanel{
         
         tableau = new JTable();
         JScrollPane tableauContainer = new JScrollPane(tableau);
-        tableauContainer.setPreferredSize(new Dimension(160,100));
+        tableauContainer.setPreferredSize(new Dimension(100,160));
         panierContainer.add( tableauContainer );
         
         JPanel lastLine = new JPanel();

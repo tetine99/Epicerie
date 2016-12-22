@@ -21,14 +21,13 @@ public class Fenetre extends JFrame {
 	public Fenetre() {
 		super("Gestion Epicerie");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);// DO_NOTHING_ON_CLOSE
-
-		this.setSize(900, 600);
 		this.getContentPane().setLayout(new FlowLayout());
 		makeMenu();
 		stock = new StockPanel();
 		vente = new VentePanel();
 
 		this.getContentPane().add(stock);
+        this.setSize(1000, 600);
 		this.refresh();
 
 	}
