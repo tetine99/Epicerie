@@ -73,7 +73,7 @@ public class VenteFormPanel extends JPanel{
     public void setModel(VenteModel vente){
         referenceArticle.setText( vente.getArticle().getReference() );
         date.setText( dateFormat.format(vente.getDate()) );
-        quantite.setText( String.valueOf( vente.getQuantite() ) );
+        //~ quantite.setText( String.valueOf( vente.getQuantite() ) );
 		uniteMesure.setText( vente.getArticle().getUniteMesure() );
     }
 
