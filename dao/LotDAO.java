@@ -59,7 +59,7 @@ public class LotDAO {
 				LotModel lot = new LotModel();
 				ArticleModel model = new ArticleModel();
 
-				lot.setIdLot(rs.getInt("id_lot"));
+				lot.setId(rs.getInt("id_lot"));
 				lot.setDateAchat(rs.getDate("date_achat"));
 				lot.setDatePeremption(rs.getDate("date_peremption"));
 				lot.setQuantite(rs.getDouble("quantite"));
@@ -103,7 +103,7 @@ public class LotDAO {
 				lot.setDateAchat(rs.getDate("date_achat"));
 				lot.setDatePeremption(rs.getDate("date_peremption"));
 				lot.setQuantite(rs.getDouble("quantite"));
-				lot.setIdLot(rs.getInt("id_lot"));
+				lot.setId(rs.getInt("id_lot"));
 				article.setLibelle(rs.getString("libelle"));
 				article.setPrixAchat(rs.getDouble("prix_achat"));
 				article.setPrixVente(rs.getDouble("prix_vente"));
@@ -146,7 +146,7 @@ public class LotDAO {
 	 * @param model
 	 * @param id
 	 */
-	public void modifLot(LotModel model, int id) {
+	public void modifLot(LotModel model) {
 		String sql = "update lot_article set date_achat = ? , date_peremption = ? , quantite = ? , article_reference = ? where id_lot = ?";
 		logger.debug("modification lot en base  :" + sql);
 		try {
@@ -157,7 +157,7 @@ public class LotDAO {
 
 			ps.setDouble(3, model.getQuantite());
 			ps.setString(4, model.getArticle().getReference());
-			ps.setInt(5, id);
+			ps.setInt(5, model.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -188,7 +188,7 @@ public class LotDAO {
 			lot.setDateAchat(rs.getDate("date_achat"));
 			lot.setDatePeremption(rs.getDate("date_peremption"));
 			lot.setQuantite(rs.getDouble("quantite"));
-			lot.setIdLot(rs.getInt("id_lot"));
+			lot.setId(rs.getInt("id_lot"));
 			article.setLibelle(rs.getString("libelle"));
 			article.setPrixAchat(rs.getDouble("prix_achat"));
 			article.setPrixVente(rs.getDouble("prix_vente"));

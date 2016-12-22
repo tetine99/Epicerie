@@ -1,162 +1,139 @@
 package fr.imie.gestionepicerie.view;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-
-import fr.imie.gestionepicerie.controller.EpicerieController;
-import fr.imie.gestionepicerie.exception.BusinessException;
-import fr.imie.gestionepicerie.model.ListeArticleCaisseModel;
+import fr.imie.gestionepicerie.model.VenteModel;
 import fr.imie.gestionepicerie.model.ListeArticleModel;
 import fr.imie.gestionepicerie.model.ListePanierModel;
+import fr.imie.gestionepicerie.controller.EpicerieController;
+import fr.imie.gestionepicerie.exception.BusinessException;
 
+import java.util.*;
+import javax.swing.*;
+import java.awt.event.*;
 
 @SuppressWarnings("serial")
-public class VentePanel extends JPanel{
-	//*********************** attributs ****************************************
-	private String selected = "";
-	private JTable tableau = new JTable();
-	private JTextField searchField = new JTextField();
-	private JComboBox<String> choixType = new JComboBox<>();
-	private ListeArticleModel listeArticleModel;
-	private JPanel formContainer = new JPanel();
-	
-	//***************************	*******************************************
-	public void build(){
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
-		JPanel central = new JPanel();
-        central.setLayout(new BoxLayout(central,BoxLayout.Y_AXIS));
+public class VentePanel extends CentralPanel {
+    
+    private ListeArticleModel listeArticleModel;
+	private ListePanierModel listePanierModel;
+	private ArticleFormPanel articleForm;
+	private VenteFormPanel venteForm;
+
+    public VentePanel(){
+        super();
         
-        JPanel toolbar = new JPanel();
-        toolbar.setLayout(new BoxLayout(toolbar,BoxLayout.X_AXIS));
-        toolbar.add( new JLabel("Recherche par référence : ") );
-        toolbar.add( searchField );
+        venteForm = new VenteFormPanel(this);
         
-        choixType.addItem("Article");
-		choixType.addItem("Panier");
-		ItemListener itemListener = new ItemListener() {
-			  public void itemStateChanged(ItemEvent itemEvent) {
-				String selected = (String) itemEvent.getItemSelectable().getSelectedObjects()[0];
-				
-			  }
-			};
-		choixType.addItemListener(itemListener);
-	    toolbar.add( choixType );	
-		
-        JButton  rechercher = new JButton("Rechercher");
-		rechercher.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				venteTableau();
-			}
-		});
-		toolbar.add(rechercher);
-        central.add(toolbar);
-        central.add(new JScrollPane(tableau));
-        this.add(central);
+        this.rightPart.add(venteForm);
         
-        venteTableau();
-            
-        formContainer.add(new JPanel());
-        this.add(formContainer);
+        addPart("Article");
+        addPart("Panier");
+        selectedPart = "Article";
+        onChangePart();
         
-       
+    }
+
+    @Override
+    public void onChangePart(){
+        updateTable();
+        if (selectedPart.equals("Article")) {
+            tableContainer.setBorder(BorderFactory.createTitledBorder("Tableau des Articles"));
+
+        } else if (selectedPart.equals("Panier")) {
+            tableContainer.setBorder(BorderFactory.createTitledBorder("Tableau des Paniers"));
+        }
+    }
+
+    @Override
+    public void onSelectRow(int row){
+		if (selectedPart.equals("Article")) {
+            VenteModel vente = new VenteModel();
+            vente.setArticle( listeArticleModel.getArticle(row) );
+            vente.setDate( new Date() );
+			venteForm.setModel( vente );
+		} 
+        //~ else if (selectedPart.equals("Panier")) {
+			//~ lotForm.setModel(listePanierModel.getPanier(row));
+		//~ }
 	}
 
-	//********************* afficher la liste des ventes ****************************
-	public void updateTableau(){
-		if (selected.equals("Article")){
-			venteTableau();
-		}
-		else if (selected.equals("Panier")){
-			panierTableau();
-		}
-	}
-	
-	//****************************** vente ***************************************
-	public void venteTableau(){
-		try{
-			tableau.setModel(
-				new ListeArticleCaisseModel(
-					EpicerieController.getInstance().getListArticles()
-				)
-			);
-			refresh();
-//		}catch (BusinessException e){
-//			onError(e);
-		}catch (Exception e){
-			onError(e);
+    @Override
+    public void updateTable() {
+		if (selectedPart.equals("Article")) {
+			updateArticleTableau();
+		} else if (selectedPart.equals("Panier")) {
+			updatePanierTableau();
 		}
 	}
-	
-	public void venteTableauFromSearch(String ref){
-		try{
+    
+    @Override
+    public void updateTableFromRef(String ref) {
+		if (selectedPart.equals("Article")) {
+			updateArticleTableauFromRef(ref);
+		} else if (selectedPart.equals("Panier")) {
+			updatePanierTableauFromRef(ref);
+		}
+	}
+
+    public void updateArticleTableau() {
+		try {
 			listeArticleModel = new ListeArticleModel(
-				EpicerieController.getInstance().getArticlesByRef(ref)
-			);
-			tableau.setModel(listeArticleModel);
+                EpicerieController.getInstance().getListArticles());
+			table.setModel(listeArticleModel);
 			refresh();
-		//}catch (BusinessException e){
-			//onError(e);
-		}catch (Exception e){
+		} catch (BusinessException e) {
+			onError(e);
+		} catch (Exception e) {
 			onError(e);
 		}
 	}
-	
-	public void updateVenteTableau(){
-		String input = searchField.getText();
-		if(input.equals("")){
-			venteTableau();
-		}
-		else{
-			venteTableauFromSearch(input);
-		}
-		refresh();
-	}
-	
-	//****************************** panier ***************************************
-	public void panierTableau(int id){
-		try{
-			tableau.setModel(
-				new ListePanierModel(
-					EpicerieController.getInstance().getPanierById(id);
-				)
-			);
+
+	public void updateArticleTableauFromRef(String ref) {
+		try {
+			listeArticleModel = new ListeArticleModel(
+                EpicerieController.getInstance().getArticlesByRef(ref));
+			table.setModel(listeArticleModel);
 			refresh();
-//		}catch (BusinessException e){
-//			onError(e);
-		}catch (Exception e){
+			// }catch (BusinessException e){
+			// onError(e);
+		} catch (Exception e) {
 			onError(e);
 		}
 	}
-	
-	
-	
-	//******************************************************************
-	public void refresh(){
-        this.revalidate();
-		this.repaint();
-    } 
-	
-	private void onError(BusinessException e){
+
+	public void updatePanierTableau() {
+		try {
+			listePanierModel = new ListePanierModel(
+                EpicerieController.getInstance().getListPaniers());
+			table.setModel(listePanierModel);
+			refresh();
+			// }catch (BusinessException e){
+			// onError(e);
+		} catch (Exception e) {
+			onError(e);
+		}
+	}
+
+	public void updatePanierTableauFromRef(String ref) {
+		try {
+			listePanierModel = new ListePanierModel(
+                EpicerieController.getInstance().getPaniersByRef(ref));
+			table.setModel(listePanierModel);
+			refresh();
+			// }catch (BusinessException e){
+			// onError(e);
+		} catch (Exception e) {
+			onError(e);
+		}
+	}
+    
+	// ***************************************** exception ***************************************
+
+	private void onError(BusinessException e) {
 		JOptionPane.showMessageDialog(this, "Erreur : BusinessException dans VentePanel");
 	}
-	
-	private void onError(Exception e){
-		//~ logger.error(e.getMessage(),e);
-		JOptionPane.showMessageDialog(this, "Erreur : Exception dans VentePanel : "+e.getMessage());
+    
+	private void onError(Exception e) {
+		// ~ logger.error(e.getMessage(),e);
+		JOptionPane.showMessageDialog(this, "Erreur : Exception dans VentePanel : " + e.getMessage());
 	}
-
+    
 }

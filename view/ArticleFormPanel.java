@@ -21,7 +21,7 @@ import fr.imie.gestionepicerie.model.ArticleModel;
 @SuppressWarnings("serial")
 public class ArticleFormPanel extends JPanel {
 
-	private StockPanel parent;
+	private CentralPanel parent;
 	private boolean bool = false;
 	private JComboBox<String> choixUnite;
 	private JTextField reference;
@@ -34,7 +34,7 @@ public class ArticleFormPanel extends JPanel {
 	 * 
 	 * @param parent
 	 */
-	public ArticleFormPanel(StockPanel parent) {
+	public ArticleFormPanel(final StockPanel parent) {
 		this.parent = parent;
 		choixUnite = new JComboBox<>();
 		reference = new JTextField(10);
@@ -138,14 +138,14 @@ public class ArticleFormPanel extends JPanel {
 						makeArticle(article);
 						EpicerieController.getInstance().addArticle(article);
 						reset();
-						parent.updateArticleTableau();
+						parent.updateTable();
 					}
 
 					else if (bool == true) {
 						makeArticle(article);
 						EpicerieController.getInstance().modifArticle(article, article.getReference());
 						reset();
-						parent.updateArticleTableau();
+						parent.updateTable();
 					}
 
 				} catch (BusinessException e1) {
@@ -164,7 +164,7 @@ public class ArticleFormPanel extends JPanel {
 				// TODO Auto-generated method stub
 				EpicerieController.getInstance().delArticle(reference.getText());
 				reset();
-				parent.updateArticleTableau();
+				parent.updateTable();
 
 			}
 		});
@@ -174,148 +174,7 @@ public class ArticleFormPanel extends JPanel {
 
 	}
 
-	/**
-	 * constructeur sans parametre
-	 */
-	public void ArticleFormPanel() {
 
-		choixUnite = new JComboBox<>();
-		reference = new JTextField(10);
-		prixAchat = new JTextField(10);
-		prixVente = new JTextField(10);
-		libelle = new JTextField(10);
-
-		/**
-		 * ************************************* infobulles
-		 */
-		reference.setToolTipText("Constitué d'une lettre suivit de deux chiffres ");
-		prixAchat.setToolTipText("Prix d'achat auprès du fournisseur");
-		prixVente.setToolTipText("Prix de vente auprès du client ");
-		libelle.setToolTipText("Dénomination de l'article");
-		choixUnite.setToolTipText("Unité de mesure pour l'article en fonction de sa categorie ");
-
-		/**
-		 * ************************************* jlabel et jtextfield
-		 */
-
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		JPanel field = new JPanel();
-		reference.setPreferredSize(new Dimension(03, 20));
-		field.add(new JLabel("Référence : "));
-		field.add(reference);
-		field.add(new JLabel("(Max 3 caracteres)"));
-		this.add(field);
-
-		JPanel field1 = new JPanel();
-		field1.add(new JLabel("Prix d'achat"));
-		field1.add(prixAchat);
-		// ~ field1.add(new JLabel("(Max 4 caracteres)"));
-		this.add(field1);
-
-		JPanel field2 = new JPanel();
-		field2.add(new JLabel("Prix de vente : "));
-		field2.add(prixVente);
-		// ~ field2.add(new JLabel("(Max 4 caracteres)"));
-		this.add(field2);
-
-		JPanel field3 = new JPanel();
-		field3.add(new JLabel("Libellé : "));
-		field3.add(libelle);
-		// ~ field3.add(new JLabel("(Max 10 carateres)"));
-		this.add(field3);
-
-		JPanel field4 = new JPanel();
-		field4.add(new JLabel("Unité de mesure : "));
-		field4.add(choixUnite);
-		this.add(field4);
-
-		choixUnite.addItem("Kilogramme (Kg)");
-		choixUnite.addItem("Litre (L)");
-		choixUnite.addItem("Unite (U)");
-		/**
-		 * *************************************** Jbuttons
-		 */
-		JPanel buttonPane = new JPanel();
-		JButton nouveau = new JButton("Nouveau");
-		JButton enregistrer = new JButton("Enregister");
-		JButton supprimer = new JButton("Suppimer");
-		/**
-		 * *************************************** coloration et infobulles
-		 */
-		nouveau.setForeground(Color.WHITE);
-		nouveau.setBackground(Color.BLUE);
-		enregistrer.setBackground(Color.WHITE);
-		supprimer.setForeground(Color.WHITE);
-		supprimer.setBackground(Color.RED);
-		nouveau.setToolTipText("réinitialise les champs ");
-		enregistrer.setToolTipText("Si l'article existe déja il sera modifier sinon il sera crée ");
-		supprimer.setToolTipText("Supprimer un article");
-
-		buttonPane.add(nouveau);
-		buttonPane.add(enregistrer);
-		buttonPane.add(supprimer);
-		/**
-		 * ************************************** ajout des actionlistener sur
-		 * les boutons
-		 */
-		nouveau.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				reset();
-				bool = false;
-
-			}
-		});
-
-		enregistrer.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				ArticleModel article = new ArticleModel();
-
-				try {
-					if (bool == false) {
-						makeArticle(article);
-						EpicerieController.getInstance().addArticle(article);
-						reset();
-						parent.updateArticleTableau();
-					}
-
-					else if (bool == true) {
-						makeArticle(article);
-						EpicerieController.getInstance().modifArticle(article, article.getReference());
-						reset();
-						parent.updateArticleTableau();
-					}
-
-				} catch (BusinessException e1) {
-					// TODO Auto-generated catch block
-					onError(e1);
-				} catch (Exception e2) {
-					onError(e2);
-				}
-			}
-		});
-
-		supprimer.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				EpicerieController.getInstance().delArticle(reference.getText());
-				reset();
-				parent.updateArticleTableau();
-
-			}
-		});
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		this.setBorder(BorderFactory.createTitledBorder("Formulaire Article"));
-		this.add(buttonPane);
-
-	}
 
 	/**
 	 * methode pour vider les champs de saisie

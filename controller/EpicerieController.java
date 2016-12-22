@@ -88,8 +88,8 @@ public class EpicerieController {
 		epicerieService.delLot(id);
 	}
 
-	public void modifLot(LotModel lot, int id) {
-		epicerieService.modifLot(lot, id);
+	public void modifLot(LotModel lot) {
+		epicerieService.modifLot(lot);
 	}
 
 	public LotModel getLotByRef(String ref) {
@@ -105,12 +105,19 @@ public class EpicerieController {
 		epicerieService.delPanier(id);
 	}
 
-	public void modifPanier(PanierModel panier, int id) {
-		epicerieService.modifPanier(panier, id);
+	public void modifPanier(PanierModel panier) {
+		epicerieService.modifPanier(panier);
 	}
 
 	public PanierModel getPanierById(int id) {
 		return epicerieService.getPanierById(id);
 	}
 
+	public ArrayList<PanierModel> getListPaniers() throws BusinessException {
+		return epicerieService.getListPaniers();
+	}
+
+    public ArrayList<PanierModel> getPaniersByRef(String ref) {
+		return epicerieService.getPaniersByRef(ref);
+	}
 }

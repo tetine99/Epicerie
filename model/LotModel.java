@@ -7,7 +7,7 @@ import java.util.Date;
 public class LotModel {
 
 	// ************************** Attributs ********************************
-	private int idLot;
+	private int id;
 	private Date dateAchat;
 	private Date datePeremption;
 	private double quantite;
@@ -15,7 +15,7 @@ public class LotModel {
 
 	// ************************** Constructeurs ********************************
 	public LotModel(int id, String achat, String peremption, double quantite, ArticleModel model) {
-		this.idLot = id;
+		this.id = id;
 
 		try {
 			this.dateAchat = new SimpleDateFormat("dd/MM/yyyy").parse(achat);
@@ -55,8 +55,8 @@ public class LotModel {
 
 	// ************************** getters ********************************
 
-	public int getIdLot() {
-		return idLot;
+	public int getId() {
+		return id;
 	}
 
 	public Date getDateAchat() {
@@ -76,8 +76,8 @@ public class LotModel {
 	}
 
 	// ************************* setters ***********************************
-	public void setIdLot(int idLot) {
-		this.idLot = idLot;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setDateAchat(Date dateAchat) {
@@ -101,7 +101,7 @@ public class LotModel {
 	public String toString() {
 		String date = new SimpleDateFormat("dd/MM/yyyy").format(this.getDateAchat());
 		String date2 = new SimpleDateFormat("dd/MM/yyyy").format(this.getDatePeremption());
-		return "LotModel [idLot=" + idLot + ", dateAchat=" + date + ", datePeremption=" + date2 + ", quantite="
+		return "LotModel [id=" + id + ", dateAchat=" + date + ", datePeremption=" + date2 + ", quantite="
 				+ quantite + ", modelRef=" + article + "]";
 	}
 

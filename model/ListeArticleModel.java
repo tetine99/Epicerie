@@ -5,10 +5,11 @@ import java.util.*;
 import javax.swing.table.AbstractTableModel;
 
 
+@SuppressWarnings("serial")
 public class ListeArticleModel extends AbstractTableModel {
 	
-	ArrayList <ArticleModel> articles;
-	String colNames[] = {"Référence","Prix d'achat","Prix de vente","Libellé","Unité de mesure"};
+	private ArrayList <ArticleModel> articles;
+	private String colNames[] = {"Référence","Prix d'achat","Prix de vente","Libellé","Unité de mesure"};
 	
     public ListeArticleModel(){
         this.articles = new ArrayList<>();
@@ -21,9 +22,13 @@ public class ListeArticleModel extends AbstractTableModel {
     public int getColumnCount() { return colNames.length; }
     
     public int getRowCount() { return this.articles.size();}
+
+    public String getColumnName(int col) { 
+    	return colNames[col];
+    }
     
     public Object getValueAt(int row, int col) { 
-    	ArticleModel obj = this.articles.get(row);
+    	ArticleModel obj = articles.get(row);
 		switch(col){
 			case 0:
 				return obj.getReference();
@@ -40,12 +45,8 @@ public class ListeArticleModel extends AbstractTableModel {
     }
     
     public ArticleModel getArticle(int row){
-		return this.articles.get(row);
+		return articles.get(row);
 	}
-    
-    public String getColumnName(int col) { 
-    	return colNames[col];
-    }
     
     public Iterator<ArticleModel> getIterator(){
     	return articles.iterator();

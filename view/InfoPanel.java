@@ -82,6 +82,7 @@ public class InfoPanel extends JPanel{
 	
 	//*************************** recette **************************************
 	
+	@SuppressWarnings("unused")
 	private void onError(BusinessException e){
 		JOptionPane.showMessageDialog(this, "Erreur : BusinessException dans StockPanel");
 	}

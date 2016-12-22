@@ -10,15 +10,15 @@ public class VenteModel {
 	private int id;
 	private Date date;
 	private double quantite;
-	private String modelRef; 
+	private String reference; 
 	private ArticleModel article;
-	private double total;
+
 	//************************** Constructeurs ********************************
 	public VenteModel() {
 			
 	}
 	
-	public VenteModel(String date, double quantite, String modelRef){
+	public VenteModel(String date, double quantite, String reference){
 		
 		try{
 			this.date = new SimpleDateFormat ("dd/MM/yyyy").parse(date);
@@ -27,10 +27,10 @@ public class VenteModel {
 		}
 		
 		this.quantite = quantite;
-		this.modelRef = modelRef;
+		this.reference = reference;
 	}
 
-	public VenteModel(int id, String date, double quantite, String modelRef){
+	public VenteModel(int id, String date, double quantite, String reference){
 		this.id = id;
 		
 		try{
@@ -40,7 +40,7 @@ public class VenteModel {
 		}
 			
 		this.quantite = quantite;
-		this.modelRef = modelRef;
+		this.reference = reference;
 	}
 	
 	
@@ -63,12 +63,16 @@ public class VenteModel {
 		this.id = id;
 	}
 
-	public String getModelref() {
-		return modelRef;
+	public String getReference() {
+		return reference;
 	}
 	
 	public double getPrixTotal(){
-		return total;
+		return quantite * article.getPrixVente();
+	}
+
+    public double getBenefice(){
+		return quantite * (article.getPrixVente() - article.getPrixAchat());
 	}
 	
 	// ************************* setters ***********************************
@@ -81,26 +85,26 @@ public class VenteModel {
 		this.quantite = quantite;
 	}
 
-	public void setModelref(String modelref) {
-		this.modelRef = modelref;
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
+    
 	public ArticleModel getArticle() {
 		return article;
 	}
+    
 	public void setArticle(ArticleModel article) {
 		this.article = article;
 	}
 	
-	public void setPrixTotal(double total){
-		this.total = total;
-	}
+
 
 
 	
 	@Override
 	public String toString() {
 	return "VenteModel [id = " + id + ", date de vente = " + date +
-			", quantité = " + quantite + ", model de Référence = " + modelRef + "]";
+			", quantité = " + quantite + ", référence = " + reference + "]";
 	}
 	
 	

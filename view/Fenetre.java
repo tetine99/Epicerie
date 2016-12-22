@@ -12,9 +12,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Fenetre extends JFrame {
 
-	private StockPanel stock;  
-	private InfoPanel info;  
-	private VentePanel vente;  
+	private StockPanel stock;
+	private VentePanel vente;
 
 	/**
 	 * constructeur
@@ -27,20 +26,16 @@ public class Fenetre extends JFrame {
 		this.getContentPane().setLayout(new FlowLayout());
 		makeMenu();
 		stock = new StockPanel();
-		info = new InfoPanel();
 		vente = new VentePanel();
-
-		info.build();
-		vente.build();
 
 		this.getContentPane().add(stock);
 		this.refresh();
 
 	}
 
-	// ****************************** Menu  ******************************************
-	
-
+	/**
+	 * menu
+	 */
 	public void makeMenu() {
 		JMenuBar menu = new JMenuBar();
 		// stock
@@ -52,16 +47,6 @@ public class Fenetre extends JFrame {
 			}
 		});
 		menu.add(stockMenu);
-
-		// infos
-		JMenuItem infosMenu = new JMenuItem("Infos");
-		infosMenu.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setCenterPanel(info); // showInfos();
-			}
-		});
-		menu.add(infosMenu);
 
 		// vente
 		JMenuItem venteMenu = new JMenuItem("Vente");
@@ -87,8 +72,10 @@ public class Fenetre extends JFrame {
 		this.repaint();
 	}
 
-	// *********************** dialogueConfirmation *******************************
-	
+	/**
+	 *  *************************** Dialog confirmation 
+	 */
+
 	public void dispose() {
 		DialogueConfirmation dialog = new DialogueConfirmation(Fenetre.this) {
 			@Override

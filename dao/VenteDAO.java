@@ -28,7 +28,7 @@ public class VenteDAO {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setTimestamp(1, new Timestamp(vente.getDate().getTime()));
 			ps.setDouble(2, vente.getQuantite());
-			ps.setString(3, vente.getModelref());
+			ps.setString(3, vente.getReference());
 
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -56,7 +56,7 @@ public class VenteDAO {
 				article.setId(rs.getInt("id_vente"));
 				article.setDate(rs.getDate("date_vente"));
 				article.setQuantite(rs.getDouble("quantite"));
-				article.setModelref(rs.getString("article_reference"));
+				article.setReference(rs.getString("article_reference"));
 
 				list.add(article);
 

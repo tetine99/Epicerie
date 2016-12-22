@@ -143,8 +143,8 @@ public class EpicerieService {
 		lotDAO.delLot(id);
 	}
 
-	public void modifLot(LotModel lot, int id) {
-		lotDAO.modifLot(lot, id);
+	public void modifLot(LotModel lot) {
+		lotDAO.modifLot(lot);
 	}
 
 	public LotModel getLotByRef(String ref) {
@@ -160,14 +160,21 @@ public class EpicerieService {
 		panierDAO.delPanier(id);
 	}
 
-	public void modifPanier(PanierModel panier, int id) {
-		panierDAO.modifPanier(panier, id);
+	public void modifPanier(PanierModel panier) {
+		panierDAO.modifPanier(panier);
 	}
 
 	public PanierModel getPanierById(int id) {
 		return panierDAO.getPanierById(id);
 	}
 
+	public ArrayList<PanierModel> getListPaniers() throws BusinessException {
+		return panierDAO.getListPaniers();
+	}
+
+    public ArrayList<PanierModel> getPaniersByRef(String ref) {
+		return panierDAO.getPaniersByRef(ref);
+	}
 	// ************************* Exception *******************************
 
 }

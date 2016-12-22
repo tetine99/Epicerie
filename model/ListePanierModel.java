@@ -1,53 +1,47 @@
 package fr.imie.gestionepicerie.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.table.AbstractTableModel;
 
 @SuppressWarnings("serial")
-public class ListePanierModel extends AbstractTableModel{
-	ArrayList <PanierModel> paniers;
-	ArrayList<VenteModel> ventes;
-	String colNames[] = {"ID","Date de dernière modification","Nombre d'articles"};
+public class ListePanierModel extends AbstractTableModel {
+    
+    private ArrayList<PanierModel> paniers;
+    private String colNames[] = {"ID","Date de dernière modification","Nombre d'articles"};
 
-	public ListePanierModel(){
-		this.paniers = new ArrayList<>();
+	public ListePanierModel(ArrayList<PanierModel> paniers) {
+		this.paniers = paniers;
 	}
-	
-	public ListePanierModel(List<PanierModel> panier){
-		this.paniers = (ArrayList<PanierModel>) panier;
-	}
-	
-	@Override
-	public int getColumnCount() { return colNames.length; }
     
-	@Override
-    public int getRowCount() { return this.paniers.size();}
+    public int getColumnCount() { return colNames.length; }
     
-	@Override
-    public Object getValueAt(int row, int col) { 
-    	PanierModel obj = this.paniers.get(row);
-    	VenteModel obj2 = this.ventes.get(row);
-		switch(col){
-			case 0:
-				return obj.getId_panier();
-			case 1:
-				return obj2.getDateVente(); // a modifier
-			case 2:
-				return obj2.getQuantite();
-		}
-		return "";
-    }
-    
-	@Override
+    public int getRowCount() { return paniers.size();}
+
     public String getColumnName(int col) { 
     	return colNames[col];
     }
     
-    public Iterator<PanierModel> getIterator(){
-    	return paniers.iterator();
-    }
+   	public Iterator<PanierModel> getIterator() {
+		return paniers.iterator();
+	}
     
+	@Override
+	public Object getValueAt(int row, int col) {
+		PanierModel panier = paniers.get(row);
+		switch (col) {
+		case 0:
+			return panier.getId();
+		case 1:
+			return panier.getDateModification();
+		case 2:
+			return panier.getNombreArticles();
+		}
+		return "";
+	}
+    
+    public PanierModel getPanier(int row) {
+		return paniers.get(row);
+	}
+
 }

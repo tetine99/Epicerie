@@ -1,52 +1,68 @@
 package fr.imie.gestionepicerie.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PanierModel {
 
 	private int id;
-	private double total;
-	private double benefice;
-	private ArrayList<VenteModel>ventes = new ArrayList<>();
+    private Date dateModification;
+    private ArrayList<VenteModel>ventes = new ArrayList<>();
 
-	public PanierModel(){
+	public PanierModel(){}
 
-	}
-
-	public PanierModel(int id, double total, double benefice){
+	public PanierModel(int id,  Date date){
 		this.id = id;
-		this.total = total;
-		this.benefice = benefice;
+        this.dateModification = date;
 	}
+    
 	public int getId() {
 		return id;
 	}
+    
 	public void setId(int id) {
 		this.id = id;
 	}
-	public double getTotal() {
-		return total;
+
+    public Date getDateModification() {
+		return dateModification;
 	}
-	public void setTotal(double total) {
-		this.total = total;
+    
+	public void setDateModification(Date date) {
+		this.dateModification = date;
 	}
-	public double getBenefice() {
-		return benefice;
-	}
-	public void setBenefice(double benefice) {
-		this.benefice = benefice;
-	}
+    
 	public ArrayList<VenteModel>getVentes(){
 		return ventes;
 	}
+    
 	public void addVente(VenteModel vente){
 		ventes.add(vente);
 	}
-	
-
+    
+	public double getTotal() {
+        double total = 0;
+        for (VenteModel v : ventes){
+            total += v.getPrixTotal();
+        }
+		return total;
+	}
+    
+	public double getBenefice() {
+        double total = 0;
+        for (VenteModel v : ventes){
+            total += v.getBenefice();
+        }
+		return total;
+	}
+    
+    public int getNombreArticles(){
+        return ventes.size();
+    }
+    
 	@Override
 	public String toString() {
-		return "PanierModel [id= " + id + ", total= " + total + ", bénéfice= " + benefice +"]";
+		return "PanierModel [id= " + id + ", dateModification= " + dateModification +"]";
 	}
 
 }

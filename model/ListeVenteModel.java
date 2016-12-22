@@ -39,22 +39,22 @@ public class ListeVenteModel extends AbstractTableModel {
 		case 1:
 			return obj.getQuantite();
 		case 2:
-			return obj.getModelref();
+			return obj.getReference();
 		}
 		return "";
 	}
 
-//	public boolean isPresentInBase(int row) {
-//		VenteModel obj = this.articles.get(row);
-//		return obj.isPresent();
-//	}
-	
-	public String getColumnName (int col){
+	// public boolean isPresentInBase(int row) {
+	// VenteModel obj = this.articles.get(row);
+	// return obj.isPresent();
+	// }
+
+	public String getColumnName(int col) {
 		return colNames[col];
 	}
-	
-	public Iterator<VenteModel> getIterator(){
+
+	public Iterator<VenteModel> getIterator() {
 		return ventes.iterator();
 	}
-	
+
 }
