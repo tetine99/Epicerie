@@ -14,36 +14,7 @@ public class VenteModel {
 	private ArticleModel article;
 
 	//************************** Constructeurs ********************************
-	public VenteModel() {
-			
-	}
-	
-	public VenteModel(String date, double quantite, String reference){
-		
-		try{
-			this.date = new SimpleDateFormat ("dd/MM/yyyy").parse(date);
-		} catch (ParseException e){
-			e.printStackTrace();
-		}
-		
-		this.quantite = quantite;
-		this.reference = reference;
-	}
-
-	public VenteModel(int id, String date, double quantite, String reference){
-		this.id = id;
-		
-		try{
-			this.date = new SimpleDateFormat ("dd/MM/yyyy").parse(date);
-		} catch (ParseException e){
-			e.printStackTrace();
-		}
-			
-		this.quantite = quantite;
-		this.reference = reference;
-	}
-	
-	
+	public VenteModel() {}
 	
 	// ************************** getters ********************************
 	public int getId() {
@@ -96,10 +67,6 @@ public class VenteModel {
 	public void setArticle(ArticleModel article) {
 		this.article = article;
 	}
-	
-
-
-
 	
 	@Override
 	public String toString() {

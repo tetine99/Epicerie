@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -20,104 +21,92 @@ import fr.imie.gestionepicerie.model.ListeArticleCaisseModel;
 import fr.imie.gestionepicerie.model.ListeVenteModel;
 import fr.imie.gestionepicerie.model.PanierModel;
 import fr.imie.gestionepicerie.model.VenteModel;
+import fr.imie.gestionepicerie.model.ListeVentePanierModel;
 
 
 
 public class PanierPanel extends JPanel{
 
-	private  VentePanel parent;
-	private JLabel idPanier = new JLabel("ID du panier : ");
-	private JLabel total = new JLabel("Total : ");
-	private JButton supprimer = new JButton("Supprimer l'article sélectionné");
-	private JButton valider = new JButton("Validation et Paiement");
-	private JButton annuler = new JButton("Annuler");
-	private JTable tableau = new JTable();
-	private PanierModel panierModel = new PanierModel();
+	private VentePanel parent;
+	private JLabel idPanier;
+	private JLabel total;
+	private JButton supprimer;
+	private JButton valider;
+	private JButton annuler;
+	private JTable tableau;
+	private PanierModel panierModel;
 	private Integer selected;
 	private JPanel panierContainer;
 	private ArticleModel article;
 
 	public PanierPanel(VentePanel parent){
 		this.parent = parent;
-		panierContainer = new JPanel();
-		panierContainer.setLayout(new BoxLayout(panierContainer, BoxLayout.Y_AXIS));
+        
+        panierContainer = new JPanel();
 		panierContainer.setBorder(BorderFactory.createTitledBorder("Panier"));
-		JPanel id = new JPanel();
-		id.add(idPanier);
-		this.add(id);
-
-		JPanel supprimerArticle = new JPanel();
-		supprimerArticle.add(supprimer);
-		this.add(supprimerArticle);
-		this.add(new JScrollPane(tableau));
-
-
-		JPanel field = new JPanel();
-		field.add(total);
-		field.add(valider);
-		field.add(annuler);
-		this.add(field);
+        panierContainer.setLayout(new BoxLayout(panierContainer, BoxLayout.Y_AXIS));
+        this.add( panierContainer );
+        
+        panierContainer.add( new JLabel("ID du panier : ") );
+        idPanier = new JLabel("");
+        panierContainer.add( idPanier );
+        
+        supprimer = new JButton("Supprimer l'article sélectionné");
+        panierContainer.add( supprimer );
+        
+        tableau = new JTable();
+        JScrollPane tableauContainer = new JScrollPane(tableau);
+        tableauContainer.setPreferredSize(new Dimension(150,200));
+        panierContainer.add( tableauContainer );
+        
+        JPanel lastLine = new JPanel();
+        panierContainer.add( lastLine );
+        lastLine.add( new JLabel("Total : ") );
+        total = new JLabel("");
+        lastLine.add( total );
+        valider = new JButton("Validation et Paiement");
+        lastLine.add( valider );
+        annuler = new JButton("Annuler");
+        lastLine.add( annuler );
+        
 		supprimer.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				EpicerieController.getInstance().delArticle(String.valueOf(tableau.getRowCount()));
-
+				EpicerieController.getInstance().delArticle(article.getReference());
 			}
 		});
+        
 		valider.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
 			}
 		});
 
 		annuler.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				tableau.setModel(new ListeArticleCaisseModel());
-
 			}
 		});
-
-
-		ArticleModel a1 = new ArticleModel();
-		VenteModel v1 = new VenteModel();
-		a1.setReference("Y01");
-		a1.setPrixVente(1.52);
-		a1.setLibelle("pomme");
-		v1.setQuantite(30);
-		v1.getPrixTotal();
-		v1.setArticle(a1);
-		panierModel.addVente(v1);
-		panierModel.addVente(v1);
-		panierModel.addVente(v1);
-		setModel(panierModel);
 
 		tableau.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent e) {
 				if (e.getClickCount() == 1) {
-
 					final JTable target = (JTable) e.getSource();
 					selected = target.getSelectedRow();
-
-
 				}
 			}
 		});
-
-
 	}
+    
 	public void setModel(PanierModel panier){
 		idPanier.setText(String.valueOf(panier.getId()));
 		total.setText(String.valueOf(panier.getTotal()));
 		tableau.setModel(new ListeVentePanierModel(panier.getVentes()));
 		selected = null;
 	}
+    
 	public static void main(String[] args) {
 		JFrame fenetre = new JFrame();
 		VentePanel parent = null;

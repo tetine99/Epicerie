@@ -1,5 +1,6 @@
 package fr.imie.gestionepicerie.view;
 import fr.imie.gestionepicerie.model.VenteModel;
+import fr.imie.gestionepicerie.model.PanierModel;
 import fr.imie.gestionepicerie.model.ListeArticleModel;
 import fr.imie.gestionepicerie.model.ListePanierModel;
 import fr.imie.gestionepicerie.controller.EpicerieController;
@@ -16,19 +17,46 @@ public class VentePanel extends CentralPanel {
 	private ListePanierModel listePanierModel;
 	private ArticleFormPanel articleForm;
 	private VenteFormPanel venteForm;
+    private VenteModel venteModel;
+    private PanierModel panierModel;
+    private PanierPanel panierPanel;
 
     public VentePanel(){
         super();
         
         venteForm = new VenteFormPanel(this);
+        panierPanel = new PanierPanel(this);
         
         this.rightPart.add(venteForm);
+        this.rightPart.add(panierPanel);
         
         addPart("Article");
         addPart("Panier");
         selectedPart = "Article";
         onChangePart();
         
+    }
+    
+    public void onClickInitPanier(){
+        //~ panierModel = EpicerieController.getInstance().createPanier();
+        //~ panierPanel.setModel( panierModel );
+        
+    }
+    
+    public void addVenteToPanier(VenteModel vente){
+        System.out.println("addVenteToPanier : "+vente);
+    }
+
+    public void delVenteFromPanier(VenteModel vente){
+        System.out.println("delVenteFromPanier : "+vente);
+    }
+
+    public void validPanier(){
+        System.out.println("validPanier");
+    }
+
+    public void delPanier(){
+        System.out.println("delPanier");
     }
 
     @Override
@@ -45,10 +73,10 @@ public class VentePanel extends CentralPanel {
     @Override
     public void onSelectRow(int row){
 		if (selectedPart.equals("Article")) {
-            VenteModel vente = new VenteModel();
-            vente.setArticle( listeArticleModel.getArticle(row) );
-            vente.setDate( new Date() );
-			venteForm.setModel( vente );
+            venteModel = new VenteModel();
+            venteModel.setArticle( listeArticleModel.getArticle(row) );
+            venteModel.setDate( new Date() );
+			venteForm.setModel( venteModel );
 		} 
         //~ else if (selectedPart.equals("Panier")) {
 			//~ lotForm.setModel(listePanierModel.getPanier(row));

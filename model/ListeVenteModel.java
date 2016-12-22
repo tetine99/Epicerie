@@ -12,12 +12,8 @@ public class ListeVenteModel extends AbstractTableModel {
 	ArrayList<VenteModel> ventes;
 	String colNames[] = { "Date de vente", "Quantité", "Référence de l'article" };
 
-	public ListeVenteModel() {
-		this.ventes = new ArrayList<>();
-	}
-
-	public ListeVenteModel(List<VenteModel> ventes) {
-		this.ventes = (ArrayList<VenteModel>) ventes;
+	public ListeVenteModel(ArrayList<VenteModel> ventes) {
+		this.ventes = ventes;
 	}
 
 	@Override
