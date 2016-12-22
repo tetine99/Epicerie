@@ -1,16 +1,19 @@
 package fr.imie.gestionepicerie.exception;
 
+
 @SuppressWarnings("serial")
-public class BusinessException extends Exception {
-
+public class BusinessException extends Exception{
+	//attribut
 	private String code;
-
-	public BusinessException(String code) {
+	
+	//constructeurs
+	public BusinessException (String code) {
 		this.code = code;
 	}
-
-	public String getCode() {
-		return this.code;
+	
+	//getters
+	public String getCode(){
+		return code;
 	}
 
 }
