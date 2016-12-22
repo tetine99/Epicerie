@@ -12,6 +12,7 @@ public class VenteModel {
 	private double quantite;
 	private String reference; 
 	private ArticleModel article;
+	private PanierModel panier;
 
 	//************************** Constructeurs ********************************
 	public VenteModel() {}
@@ -46,6 +47,10 @@ public class VenteModel {
 		return quantite * (article.getPrixVente() - article.getPrixAchat());
 	}
 	
+    public PanierModel getPanier() {
+		return panier;
+	}
+    
 	// ************************* setters ***********************************
 
 	public void setDate(Date date) {
@@ -66,6 +71,10 @@ public class VenteModel {
     
 	public void setArticle(ArticleModel article) {
 		this.article = article;
+	}
+	
+	public void setPanier(PanierModel panier) {
+		this.panier = panier;
 	}
 	
 	@Override
