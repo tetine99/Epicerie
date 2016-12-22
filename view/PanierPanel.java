@@ -115,7 +115,7 @@ public class PanierPanel extends JPanel{
 	public void setModel(PanierModel panier){
 		idPanier.setText(String.valueOf(panier.getId()));
 		total.setText(String.valueOf(panier.getTotal()));
-		tableau.setModel(new ListeVenteModel(panier.getVentes()));
+		tableau.setModel(new ListeVentePanierModel(panier.getVentes()));
 		selected = null;
 	}
 	public static void main(String[] args) {
