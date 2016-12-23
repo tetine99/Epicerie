@@ -184,4 +184,34 @@ public class ArticleDAO {
 		}
 		return list;
 	}
+
+	
+	public ArrayList<ArticleModel> getListArticlesCaisseByRef(String ref) {
+
+		String sql = "select * from article where reference like ?";
+		ArrayList<ArticleModel> list = new ArrayList<>();
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			
+			ps.setString(1, "%" + ref.toUpperCase() + "%");
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				ArticleModel article = new ArticleModel();
+
+				article.setReference(rs.getString("reference"));
+				article.setLibelle(rs.getString("libelle"));
+				article.setPrixVente(rs.getDouble("prix_vente"));
+				
+				list.add(article);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 }
