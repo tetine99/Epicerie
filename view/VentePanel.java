@@ -64,10 +64,17 @@ public class VentePanel extends CentralPanel {
 		openPanier.setVisible(false);
 		panierPanel.setVisible(true);
 		venteForm.setVisible(true);
-		// ~ panierModel = EpicerieController.getInstance().createPanier();
-		// ~ panierPanel.setModel( panierModel );
-
+        getPanierModel();
 	}
+    
+    public void getPanierModel(){
+        try {
+            panierModel = EpicerieController.getInstance().createPanier();
+            panierPanel.setModel( panierModel );
+        } catch (Exception e) {
+			onError(e);
+		}
+    }
 
 	public void addVenteToPanier(VenteModel vente) {
 		System.out.println("addVenteToPanier : " + vente);
