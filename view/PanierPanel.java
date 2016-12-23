@@ -72,20 +72,21 @@ public class PanierPanel extends JPanel{
 		supprimer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				EpicerieController.getInstance().delArticle(article.getReference());
+				parent.delVenteFromPanierByLineNumber(selected);
 			}
 		});
         
 		valider.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				parent.validPanier();
 			}
 		});
 
 		annuler.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				tableau.setModel(new ListeArticleCaisseModel());
+				parent.delPanier();
 			}
 		});
 
@@ -107,12 +108,5 @@ public class PanierPanel extends JPanel{
 		selected = null;
 	}
     
-	public static void main(String[] args) {
-		JFrame fenetre = new JFrame();
-		VentePanel parent = null;
-		PanierPanel panier = new PanierPanel(parent);
-		fenetre.add(panier);
-		fenetre.setVisible(true);
-	}
-
+	
 }
