@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 
@@ -29,10 +30,12 @@ public class PanierDAO {
 		PanierModel panier = new PanierModel();
 		
 		try {
-			PreparedStatement ps = connection.prepareStatement(sql);
+			PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
-			ps.executeUpdate();
-			panier.setId(ps.getGeneratedKeys());
+            ps.executeUpdate();
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.first();
+            panier.setId(generatedKeys.getInt(1));
 		} catch (SQLException e) {
 			throw new TechnicalException(e);
 		}
