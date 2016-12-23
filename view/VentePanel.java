@@ -78,6 +78,7 @@ public class VentePanel extends CentralPanel {
 
 	public void addVenteToPanier(VenteModel vente) {
         //~ System.out.println(vente);
+        vente.setParent( panierModel );
         EpicerieController.getInstance().addVente(vente);
         panierModel.addVente( vente );
         panierPanel.setModel(panierModel);
