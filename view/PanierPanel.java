@@ -52,9 +52,10 @@ public class PanierPanel extends JPanel{
 	firstLine.add(new JLabel("ID du panier"));
 	idPanier = new JLabel("");
 	firstLine.add(idPanier);
+        supprimer = new JButton("Supprimer l'article sélectionné");
 	firstLine.add(supprimer);
         
-        supprimer = new JButton("Supprimer l'article sélectionné");
+      
         
         
         tableau = new JTable();
