@@ -5,16 +5,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class VenteModel {
-	
-	//************************** Attributs ********************************
+
+	// ************************** Attributs ********************************
 	private int id;
 	private Date date;
 	private double quantite;
 	private ArticleModel article;
+	private PanierModel parent;
 
-	//************************** Constructeurs ********************************
-	public VenteModel() {}
-	
+	// ************************** Constructeurs ********************************
+	public VenteModel() {
+	}
+
 	// ************************** getters ********************************
 	public int getId() {
 		return id;
@@ -23,26 +25,29 @@ public class VenteModel {
 	public Date getDate() {
 		return date;
 	}
-	
+
 	public double getQuantite() {
 		return quantite;
 	}
 
-    public ArticleModel getArticle() {
+	public ArticleModel getArticle() {
 		return article;
 	}
-	
-	public double getPrixTotal(){
+
+	public double getPrixTotal() {
 		return quantite * article.getPrixVente();
 	}
 
-    public double getBenefice(){
+	public double getBenefice() {
 		return quantite * (article.getPrixVente() - article.getPrixAchat());
 	}
-    
+
+	public PanierModel getParent() {
+		return this.parent;
+	}
 	// ************************* setters ***********************************
 
-    public void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -53,18 +58,18 @@ public class VenteModel {
 	public void setQuantite(double quantite) {
 		this.quantite = quantite;
 	}
-    
+
 	public void setArticle(ArticleModel article) {
 		this.article = article;
 	}
-	
-	
+
+	public void setParent(PanierModel parent) {
+		this.parent = parent;
+	}
+
 	@Override
 	public String toString() {
-	return "VenteModel [id = " + id + ", date de vente = " + date +
-			", quantité = " + quantite + "]";
+		return "VenteModel [id = " + id + ", date de vente = " + date + ", quantité = " + quantite + "]";
 	}
-	
-	
-	
+
 }

@@ -71,18 +71,39 @@ public class PanierDAO {
 	}
 	
 	public ArrayList<PanierModel> getListPaniers() throws BusinessException {
-		String sql = "select * from panier";
+		String sql = "select * from article join vente_article on article.reference = vente_article.article_reference join panier on vente_article.panier_id = panier.id_panier";
 		ArrayList<PanierModel> list = new ArrayList<>();
 		try{
-			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				PanierModel panier = new PanierModel();
-				panier.setId(rs.getInt("id_panier"));
+			PanierModel panier = new PanierModel();
+            int id = 1; 
+            int lastId = 1;
+			while(rs.next()){
+                id = rs.getInt("id_panier");
+                if (id!=lastId){
+                    list.add(panier);
+                    lastId = id;
+                    panier = new PanierModel();
+                }
+				VenteModel vente = new VenteModel();
+				ArticleModel article = new ArticleModel();
+				
+				panier.setId(id);
 				panier.setDateModification(rs.getDate("date_modification"));
 				
-				list.add(panier);
+				vente.setId(rs.getInt("id_vente"));
+				vente.setDate(rs.getDate("date_vente"));
+				vente.setQuantite(rs.getDouble("quantite"));
+												
+				article.setReference(rs.getString("reference"));
+				article.setPrixAchat(rs.getDouble("prix_achat"));
+				article.setPrixVente(rs.getDouble("prix_vente"));
+				article.setLibelle(rs.getString("libelle"));
+				article.setUniteMesure(rs.getString("unite_de_mesure"));
+				
+				vente.setArticle(article);
+				panier.addVente(vente);
 			}
 			return list;
 		} catch (SQLException e){

@@ -22,14 +22,14 @@ public class VenteDAO {
 	 * @param vente
 	 */
 	public void addVente(VenteModel vente) {
-		String sql = "insert into vente_article (date_vente, quantite, article_reference) values (?,?,?)";
+		String sql = "insert into vente_article (date_vente, quantite, article_reference, panier_id) values (?,?,?,?)";
 		logger.debug("ajout d'une vente en base :" + sql);
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setTimestamp(1, new Timestamp(vente.getDate().getTime()));
 			ps.setDouble(2, vente.getQuantite());
 			ps.setString(3, vente.getArticle().getReference());
-
+			ps.setInt(4, vente.getParent().getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new TechnicalException(e);
