@@ -55,10 +55,14 @@ public class EpicerieController {
 		return epicerieService.getListArticles();
 	}
 
+	public ArrayList<ArticleModel> getListArticlesCaisseByRef(String ref) {
+		return epicerieService.getListArticleCaisseByRef(ref);
+	}
+	
 	public ArticleModel getArticleByRef(String reference) throws BusinessException {
 		return epicerieService.getArticleByRef(reference);
 	}
-
+	
 	public void delArticle(String ref) {
 		epicerieService.delArticle(ref);
 	}
