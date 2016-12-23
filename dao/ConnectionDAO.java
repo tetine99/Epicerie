@@ -20,7 +20,7 @@ public class ConnectionDAO {
 			e.printStackTrace();
 		}
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://10.2.2.36/epicerie", "epicerie", "1234");
+			connection = DriverManager.getConnection("jdbc:mysql://10.2.2.44/epicerie", "epicerie", "1234");
 			System.out.println("connection ok");
 
 		} catch (SQLException e) {

@@ -97,8 +97,8 @@ public class EpicerieController {
 	}
 
 	// ************************* panier **********************************
-	public void addPanier(PanierModel panier) throws SQLException {
-		epicerieService.addPanier(panier);
+	public PanierModel createPanier() throws SQLException {
+		return epicerieService.createPanier();
 	}
 
 	public void delPanier(int id) {
@@ -109,15 +109,11 @@ public class EpicerieController {
 		epicerieService.modifPanier(panier);
 	}
 
-	public PanierModel getPanierById(int id) {
-		return epicerieService.getPanierById(id);
-	}
-
 	public ArrayList<PanierModel> getListPaniers() throws BusinessException {
 		return epicerieService.getListPaniers();
 	}
 
-    public ArrayList<PanierModel> getPaniersByRef(String ref) {
+    public ArrayList<PanierModel> getPaniersByRef(String ref) throws BusinessException {
 		return epicerieService.getPaniersByRef(ref);
 	}
 }

@@ -35,20 +35,21 @@ public class PanierDAO {
 //		}
 //	}
 	
-	public int createPanier(PanierModel panier) throws SQLException {
+	public PanierModel createPanier() throws SQLException {
 		String sql = "insert into panier (id_panier, date_modification) values (?,?)";
 		logger.debug("ajoute un article dans le panier :" + sql);
 		int id = 0;
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, panier.getId());
-			ps.setTimestamp(2, new Timestamp(panier.getDateModification().getTime()));
-			id = panier.getId();
+			//~ ps.setInt(1, panier.getId());
+			//~ ps.setTimestamp(2, new Timestamp(panier.getDateModification().getTime()));
+			//~ id = panier.getId();
 			ps.executeUpdate();
+            
 		} catch (SQLException e) {
 			throw new TechnicalException(e);
 		}
-		return id;
+		return new PanierModel();
 		
 	}
 	

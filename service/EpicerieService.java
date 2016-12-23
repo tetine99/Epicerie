@@ -152,8 +152,8 @@ public class EpicerieService {
 	}
 
 	// ************************* Panier **********************************
-	public void addPanier(PanierModel panier) throws SQLException {
-		panierDAO.addPanier(panier);
+	public PanierModel createPanier() throws SQLException {
+		return panierDAO.createPanier();
 	}
 
 	public void delPanier(int id) {
@@ -164,15 +164,11 @@ public class EpicerieService {
 		panierDAO.modifPanier(panier);
 	}
 
-	public PanierModel getPanierById(int id) {
-		return panierDAO.getPanierById(id);
-	}
-
 	public ArrayList<PanierModel> getListPaniers() throws BusinessException {
 		return panierDAO.getListPaniers();
 	}
 
-    public ArrayList<PanierModel> getPaniersByRef(String ref) {
+    public ArrayList<PanierModel> getPaniersByRef(String ref) throws BusinessException {
 		return panierDAO.getPaniersByRef(ref);
 	}
 	// ************************* Exception *******************************
