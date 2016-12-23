@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+
 import org.apache.log4j.Logger;
 
 import fr.imie.gestionepicerie.exception.BusinessException;
@@ -21,36 +22,22 @@ public class PanierDAO {
 	private Connection connection = ConnectionDAO.getConnection();
 	private static final Logger logger = Logger.getLogger(ArticleDAO.class);
 
-//	public void createPanier(PanierModel panier) throws SQLException {
-//		String sql = "insert into panier (id_panier, date_modification) values (?,?)";
-//		logger.debug("ajoute un article dans le panier :" + sql);
-//		try {
-//			PreparedStatement ps = connection.prepareStatement(sql);
-//			ps.setInt(1, panier.getId());
-//			ps.setTimestamp(2, new Timestamp(panier.getDateModification().getTime()));
-//
-//			ps.executeUpdate();
-//		} catch (SQLException e) {
-//			throw new TechnicalException(e);
-//		}
-//	}
 	
 	public PanierModel createPanier() throws SQLException {
 		String sql = "insert into panier (id_panier, date_modification) values (?,?)";
 		logger.debug("ajoute un article dans le panier :" + sql);
-		int id = 0;
+		PanierModel panier = new PanierModel();
+		
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			//~ ps.setInt(1, panier.getId());
-			//~ ps.setTimestamp(2, new Timestamp(panier.getDateModification().getTime()));
-			//~ id = panier.getId();
+			ps.setInt(1, panier.getId());
+			ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 			ps.executeUpdate();
-            
+			//ps.getGeneratedKeys();
 		} catch (SQLException e) {
 			throw new TechnicalException(e);
 		}
-		return new PanierModel();
-		
+		return panier;
 	}
 	
 	public void delPanier(int id) {
