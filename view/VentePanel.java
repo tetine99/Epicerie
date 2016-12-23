@@ -58,6 +58,10 @@ public class VentePanel extends CentralPanel {
     public void delPanier(){
         System.out.println("delPanier");
     }
+	
+    public void delVenteFromPanierByLineNumber(int line){
+    	System.out.println("delVenteFromPanierByLineNumber : "+line);
+    }
 
     @Override
     public void onChangePart(){
