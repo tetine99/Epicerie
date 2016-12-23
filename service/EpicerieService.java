@@ -98,6 +98,10 @@ public class EpicerieService {
 	public ArrayList<ArticleModel> getListArticles() throws BusinessException {
 		return articleDAO.getListArticles();
 	}
+	
+	public ArrayList<ArticleModel> getListArticleCaisseByRef(String ref){
+		return articleDAO.getListArticlesCaisseByRef(ref);
+	}
 
 	public void delArticle(String ref) {
 		articleDAO.delArticle(ref);
