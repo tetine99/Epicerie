@@ -47,9 +47,12 @@ public class PanierPanel extends JPanel{
         panierContainer.setLayout(new BoxLayout(panierContainer, BoxLayout.Y_AXIS));
         this.add( panierContainer );
         
-        panierContainer.add( new JLabel("ID du panier : ") );
-        idPanier = new JLabel("");
-        panierContainer.add( idPanier );
+        JPanel firstLine = new JPanel();
+	panierContainer.add(firstLine);
+	firstLine.add(new JLabel("ID du panier"));
+	idPanier = new JLabel("");
+	firstLine.add(idPanier);
+
         
         supprimer = new JButton("Supprimer l'article sélectionné");
         panierContainer.add( supprimer );
