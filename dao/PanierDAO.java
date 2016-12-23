@@ -102,17 +102,23 @@ public class PanierDAO {
 			ps.setString(1, "%" + ref.toUpperCase() + "%");
 			ResultSet rs = ps.executeQuery();
 			PanierModel panier = new PanierModel();
+            int id,lastId = 1;
 			while(rs.next()){
+                id = rs.getInt("id_panier");
+                if (id!=lastId){
+                    list.add(panier);
+                    lastId = id;
+                    panier = new PanierModel();
+                }
 				VenteModel vente = new VenteModel();
 				ArticleModel article = new ArticleModel();
 				
-				panier.setId(rs.getInt("id_panier"));
+				panier.setId(id);
 				panier.setDateModification(rs.getDate("date_modification"));
 				
 				vente.setId(rs.getInt("id_vente"));
 				vente.setDate(rs.getDate("date_vente"));
 				vente.setQuantite(rs.getDouble("quantite"));
-				vente.setReference(rs.getString("article_reference"));
 												
 				article.setReference(rs.getString("reference"));
 				article.setPrixAchat(rs.getDouble("prix_achat"));
@@ -121,9 +127,7 @@ public class PanierDAO {
 				article.setUniteMesure(rs.getString("unite_de_mesure"));
 				
 				vente.setArticle(article);
-				vente.setPanier(panier);				
-								
-				list.add(panier);
+				panier.addVente(vente);
 				
 			}
 		} catch (SQLException e){

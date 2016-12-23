@@ -77,7 +77,11 @@ public class VentePanel extends CentralPanel {
     }
 
 	public void addVenteToPanier(VenteModel vente) {
-		System.out.println("addVenteToPanier : " + vente);
+        //~ System.out.println(vente);
+        EpicerieController.getInstance().addVente(vente);
+        panierModel.addVente( vente );
+        panierPanel.setModel(panierModel);
+        panierPanel.refresh();
 	}
 
 	public void validPanier() {
@@ -111,9 +115,9 @@ public class VentePanel extends CentralPanel {
 			venteModel.setDate(new Date());
 			venteForm.setModel(venteModel);
 		}
-		// ~ else if (selectedPart.equals("Panier")) {
-		// ~ lotForm.setModel(listePanierModel.getPanier(row));
-		// ~ }
+		else if (selectedPart.equals("Panier")) {
+            panierPanel.setModel( listePanierModel.getPanier(row));
+		}
 	}
 
 	@Override

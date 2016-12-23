@@ -10,9 +10,7 @@ public class VenteModel {
 	private int id;
 	private Date date;
 	private double quantite;
-	private String reference; 
 	private ArticleModel article;
-	private PanierModel panier;
 
 	//************************** Constructeurs ********************************
 	public VenteModel() {}
@@ -29,14 +27,9 @@ public class VenteModel {
 	public double getQuantite() {
 		return quantite;
 	}
-	
-	
-	public void setId(int id) {
-		this.id = id;
-	}
 
-	public String getReference() {
-		return reference;
+    public ArticleModel getArticle() {
+		return article;
 	}
 	
 	public double getPrixTotal(){
@@ -46,12 +39,12 @@ public class VenteModel {
     public double getBenefice(){
 		return quantite * (article.getPrixVente() - article.getPrixAchat());
 	}
-	
-    public PanierModel getPanier() {
-		return panier;
-	}
     
 	// ************************* setters ***********************************
+
+    public void setId(int id) {
+		this.id = id;
+	}
 
 	public void setDate(Date date) {
 		this.date = date;
@@ -60,27 +53,16 @@ public class VenteModel {
 	public void setQuantite(double quantite) {
 		this.quantite = quantite;
 	}
-
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-    
-	public ArticleModel getArticle() {
-		return article;
-	}
     
 	public void setArticle(ArticleModel article) {
 		this.article = article;
 	}
 	
-	public void setPanier(PanierModel panier) {
-		this.panier = panier;
-	}
 	
 	@Override
 	public String toString() {
 	return "VenteModel [id = " + id + ", date de vente = " + date +
-			", quantité = " + quantite + ", référence = " + reference + "]";
+			", quantité = " + quantite + "]";
 	}
 	
 	

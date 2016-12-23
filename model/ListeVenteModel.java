@@ -35,7 +35,7 @@ public class ListeVenteModel extends AbstractTableModel {
 		case 1:
 			return obj.getQuantite();
 		case 2:
-			return obj.getReference();
+			return obj.getArticle().getReference();
 		}
 		return "";
 	}

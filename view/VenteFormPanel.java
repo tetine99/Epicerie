@@ -14,9 +14,9 @@ import fr.imie.gestionepicerie.model.ArticleModel;
 import fr.imie.gestionepicerie.model.VenteModel;
 
 public class VenteFormPanel extends JPanel{
-
+    
+    private VenteModel vente;
 	private VentePanel parent;
-	private ArticleModel article;
 	private JTextField referenceArticle;
 	private JTextField date;
 	private JTextField quantite;
@@ -28,7 +28,8 @@ public class VenteFormPanel extends JPanel{
     public VenteFormPanel(VentePanel parent){
         this.parent = parent;
         dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        article = new ArticleModel();
+        
+        this.vente = new VenteModel();
         
         venteFormContainer = new JPanel();
         venteFormContainer.setLayout(new BoxLayout(venteFormContainer, BoxLayout.Y_AXIS));
@@ -53,9 +54,8 @@ public class VenteFormPanel extends JPanel{
         ajouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-                //~ EpicerieController.getInstance().addArticle(article);
+                VenteFormPanel.this.parent.addVenteToPanier(VenteFormPanel.this.vente);
                 reset();
-                //~ parent.updateTable();
                 
 			}
 		});
@@ -71,6 +71,7 @@ public class VenteFormPanel extends JPanel{
     }
     
     public void setModel(VenteModel vente){
+        this.vente = vente;
         referenceArticle.setText( vente.getArticle().getReference() );
         date.setText( dateFormat.format(vente.getDate()) );
         //~ quantite.setText( String.valueOf( vente.getQuantite() ) );
@@ -80,6 +81,7 @@ public class VenteFormPanel extends JPanel{
     public void reset() {
 		quantite.setText("");
 		uniteMesure.setText("");
+        
 	}
 
 }

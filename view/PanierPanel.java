@@ -35,9 +35,9 @@ public class PanierPanel extends JPanel{
 	private JButton annuler;
 	private JTable tableau;
 	private PanierModel panierModel;
-	private Integer selected;
 	private JPanel panierContainer;
 	private ArticleModel article;
+    private int selected;
 
 	public PanierPanel(VentePanel parent){
 		this.parent = parent;
@@ -48,15 +48,12 @@ public class PanierPanel extends JPanel{
         this.add( panierContainer );
         
         JPanel firstLine = new JPanel();
-	panierContainer.add(firstLine);
-	firstLine.add(new JLabel("ID du panier"));
-	idPanier = new JLabel("");
-	firstLine.add(idPanier);
+        panierContainer.add(firstLine);
+        firstLine.add(new JLabel("ID du panier"));
+        idPanier = new JLabel("");
+        firstLine.add(idPanier);
         supprimer = new JButton("Supprimer l'article sélectionné");
-	firstLine.add(supprimer);
-        
-      
-        
+        firstLine.add(supprimer);
         
         tableau = new JTable();
         JScrollPane tableauContainer = new JScrollPane(tableau);
@@ -76,7 +73,9 @@ public class PanierPanel extends JPanel{
 		supprimer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				parent.delVenteFromPanierByLineNumber(selected);
+                if (selected>-1){
+                    parent.delVenteFromPanierByLineNumber(selected);
+                }
 			}
 		});
         
@@ -109,7 +108,13 @@ public class PanierPanel extends JPanel{
 		idPanier.setText(String.valueOf(panier.getId()));
 		total.setText(String.valueOf(panier.getTotal()));
 		tableau.setModel(new ListeVentePanierModel(panier.getVentes()));
-		selected = null;
+		selected = -1;
+        refresh();
+	}
+
+    public void refresh() {
+		this.revalidate();
+		this.repaint();
 	}
     
 	

@@ -57,18 +57,18 @@ public class LotDAO {
 			while (rs.next()) {
 
 				LotModel lot = new LotModel();
-				ArticleModel model = new ArticleModel();
+				ArticleModel article = new ArticleModel();
 
 				lot.setId(rs.getInt("id_lot"));
 				lot.setDateAchat(rs.getDate("date_achat"));
 				lot.setDatePeremption(rs.getDate("date_peremption"));
 				lot.setQuantite(rs.getDouble("quantite"));
-				model.setReference(rs.getString("reference"));
-				model.setUniteMesure(rs.getString("unite_de_mesure"));
-				model.setPrixAchat(rs.getDouble("prix_achat"));
-				model.setPrixVente(rs.getDouble("prix_vente"));
-				model.setLibelle(rs.getString("libelle"));
-				lot.setArticle(model);
+				article.setReference(rs.getString("reference"));
+				article.setUniteMesure(rs.getString("unite_de_mesure"));
+				article.setPrixAchat(rs.getDouble("prix_achat"));
+				article.setPrixVente(rs.getDouble("prix_vente"));
+				article.setLibelle(rs.getString("libelle"));
+				lot.setArticle(article);
 				list.add(lot);
 
 			}

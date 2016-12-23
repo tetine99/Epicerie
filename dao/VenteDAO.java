@@ -28,7 +28,7 @@ public class VenteDAO {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setTimestamp(1, new Timestamp(vente.getDate().getTime()));
 			ps.setDouble(2, vente.getQuantite());
-			ps.setString(3, vente.getReference());
+			ps.setString(3, vente.getArticle().getReference());
 
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -42,7 +42,7 @@ public class VenteDAO {
 	 * @return arrayList
 	 */
 	public ArrayList<VenteModel> getListVente() {
-		String sql = "select * from vente_article";
+		String sql = "select * from vente_article inner join article on vente_article.article_reference = article.reference";
 
 		try {
 
@@ -51,14 +51,19 @@ public class VenteDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 
-				VenteModel article = new VenteModel();
+				ArticleModel article = new ArticleModel();
+				VenteModel vente = new VenteModel();
 
-				article.setId(rs.getInt("id_vente"));
-				article.setDate(rs.getDate("date_vente"));
-				article.setQuantite(rs.getDouble("quantite"));
-				article.setReference(rs.getString("article_reference"));
-
-				list.add(article);
+				vente.setId(rs.getInt("id_vente"));
+				vente.setDate(rs.getDate("date_vente"));
+				vente.setQuantite(rs.getDouble("quantite"));
+				article.setReference(rs.getString("reference"));
+				article.setUniteMesure(rs.getString("unite_de_mesure"));
+				article.setPrixAchat(rs.getDouble("prix_achat"));
+				article.setPrixVente(rs.getDouble("prix_vente"));
+				article.setLibelle(rs.getString("libelle"));
+                vente.setArticle( article );
+				list.add(vente);
 
 			}
 			return list;
