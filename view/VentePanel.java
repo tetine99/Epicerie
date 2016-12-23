@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -178,12 +179,12 @@ public class VentePanel extends CentralPanel {
 		venteForm.setVisible(false);
 		panierPanel.setVisible(false);
 		openPanier.setText("Nouveau Panier");
-		try {
-			Image img = ImageIO.read(getClass().getResource("/../img/panier.jpg"));
-			openPanier.setIcon(new ImageIcon(img));
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+		//~ try {
+			//~ Image img = ImageIO.read(new File("img/panier.jpg"));
+			//~ openPanier.setIcon(new ImageIcon(img));
+		//~ } catch (IOException ex) {
+			//~ ex.printStackTrace();
+		//~ }
 		openPanier.setPreferredSize(new Dimension(375, 100));
 		openPanier.setBounds(80, 80, 80, 80);
 		openPanier.setVerticalTextPosition(SwingConstants.TOP);
