@@ -7,13 +7,10 @@ public class PanierModel {
 
 	private int id;
     private Date dateModification;
-    private ArrayList<VenteModel>ventes = new ArrayList<>();
+    private ArrayList<VenteModel> ventes;
 
-	public PanierModel(){}
-
-	public PanierModel(int id,  Date date){
-		this.id = id;
-        this.dateModification = date;
+	public PanierModel(){
+		this.ventes = new ArrayList<VenteModel>();
 	}
     
 	public int getId() {

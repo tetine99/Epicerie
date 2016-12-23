@@ -14,40 +14,6 @@ public class LotModel {
 	private ArticleModel article;
 
 	// ************************** Constructeurs ********************************
-	public LotModel(int id, String achat, String peremption, double quantite, ArticleModel model) {
-		this.id = id;
-
-		try {
-			this.dateAchat = new SimpleDateFormat("dd/MM/yyyy").parse(achat);
-			this.datePeremption = new SimpleDateFormat("dd/MM/yyyy").parse(peremption);
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		this.quantite = quantite;
-		this.article = model;
-
-	}
-
-	public LotModel(String achat, String peremption, double quantite, ArticleModel model) {
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-		try {
-			Date date = formatter.parse(achat);
-			Date date2 = formatter.parse(peremption);
-
-			this.dateAchat = date;
-			this.datePeremption = date2;
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		this.quantite = quantite;
-		this.article = model;
-
-	}
 
 	public LotModel() {
 
