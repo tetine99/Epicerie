@@ -179,7 +179,7 @@ public class VentePanel extends CentralPanel {
 		panierPanel.setVisible(false);
 		openPanier.setText("Nouveau Panier");
 		try {
-			Image img = ImageIO.read(getClass().getResource("/panier.jpg"));
+			Image img = ImageIO.read(getClass().getResource("/../img/panier.jpg"));
 			openPanier.setIcon(new ImageIcon(img));
 		} catch (IOException ex) {
 			ex.printStackTrace();
