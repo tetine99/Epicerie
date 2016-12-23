@@ -24,16 +24,15 @@ public class PanierDAO {
 
 	
 	public PanierModel createPanier() throws SQLException {
-		String sql = "insert into panier (id_panier, date_modification) values (?,?)";
+		String sql = "insert into panier (date_modification) values (?)";
 		logger.debug("ajoute un article dans le panier :" + sql);
 		PanierModel panier = new PanierModel();
 		
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, panier.getId());
-			ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+			ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 			ps.executeUpdate();
-			//ps.getGeneratedKeys();
+			panier.setId(ps.getGeneratedKeys());
 		} catch (SQLException e) {
 			throw new TechnicalException(e);
 		}
