@@ -72,10 +72,6 @@ public class VentePanel extends CentralPanel {
 		System.out.println("addVenteToPanier : " + vente);
 	}
 
-	public void delVenteFromPanier(VenteModel vente) {
-		System.out.println("delVenteFromPanier : " + vente);
-	}
-
 	public void validPanier() {
 		System.out.println("validPanier");
 	}
