@@ -30,21 +30,17 @@ public class EpicerieController {
 	}
 
 	// ************************ ventes ******************************
-	public void addVente(VenteModel vente) {
-		epicerieService.addVente(vente);
+	public VenteModel createVente(VenteModel vente) {
+		return epicerieService.createVente(vente);
 	}
 
 	public ArrayList<VenteModel> getListVente() {
 		return epicerieService.getListVente();
 	}
 
-	public double getRecette() {
-		return epicerieService.getRecette();
-	}
-
-	public double getRecetteByDate(String dateDebut, String dateFin) {
-		return epicerieService.getRecetteByDate(dateDebut, dateFin);
-	}
+	public void delVente(VenteModel venteModel) {
+        epicerieService.delVente(venteModel);
+    }
 	// *********************** Articles ****************************
 
 	public void addArticle(ArticleModel article) throws BusinessException, SQLException {

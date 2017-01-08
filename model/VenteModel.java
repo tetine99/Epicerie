@@ -35,7 +35,7 @@ public class VenteModel {
 	}
 
 	public double getPrixTotal() {
-		return quantite * article.getPrixVente();
+		return ((int)((quantite * article.getPrixVente())*100))/100.;
 	}
 
 	public double getBenefice() {

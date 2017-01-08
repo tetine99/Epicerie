@@ -56,21 +56,17 @@ public class EpicerieService {
 	}
 
 	// ************************ ventes ******************************
-	public void addVente(VenteModel vente) {
-		venteDAO.addVente(vente);
+	public VenteModel createVente(VenteModel vente) {
+		return venteDAO.createVente(vente);
 	}
 
 	public ArrayList<VenteModel> getListVente() {
 		return venteDAO.getListVente();
 	}
 
-	public double getRecette() {
-		return venteDAO.getRecette();
-	}
-
-	public double getRecetteByDate(String dateDebut, String dateFin) {
-		return venteDAO.getRecetteByDate(dateDebut, dateFin);
-	}
+	public void delVente(VenteModel venteModel) {
+        venteDAO.delVente(venteModel);
+    }
 
 	// ************************ Articles ****************************
 

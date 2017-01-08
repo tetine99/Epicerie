@@ -71,17 +71,18 @@ public class VentePanel extends CentralPanel {
         try {
             panierModel = EpicerieController.getInstance().createPanier();
             panierPanel.setModel( panierModel );
+            updateTable();
         } catch (Exception e) {
 			onError(e);
 		}
     }
 
-	public void addVenteToPanier(VenteModel vente) {
+	public void addVenteToPanier(VenteModel venteModel) {
         //~ System.out.println(vente);
-        vente.setParent( panierModel );
-        EpicerieController.getInstance().addVente(vente);
-        panierModel.addVente( vente );
-        panierPanel.setModel(panierModel);
+        venteModel.setParent( panierModel );
+        venteModel = EpicerieController.getInstance().createVente( venteModel );
+        panierModel.addVente( venteModel );
+        panierPanel.setModel( panierModel );
         panierPanel.refresh();
 	}
 
@@ -94,17 +95,20 @@ public class VentePanel extends CentralPanel {
 	}
 
 	public void delVenteFromPanierByLineNumber(int line) {
-		System.out.println("delVenteFromPanierByLineNumber : " + line);
+        VenteModel venteModel = panierModel.getVente(line);
+        EpicerieController.getInstance().delVente(venteModel);
+        panierModel.delVente(line);
+        panierPanel.setModel( panierModel );
 	}
 
 	@Override
 	public void onChangePart() {
 		updateTable();
 		if (selectedPart.equals("Article")) {
-			tableContainer.setBorder(BorderFactory.createTitledBorder("Tableau des Articles"));
+			tableContainer.setBorder(BorderFactory.createTitledBorder("Table des Articles"));
 
 		} else if (selectedPart.equals("Panier")) {
-			tableContainer.setBorder(BorderFactory.createTitledBorder("Tableau des Paniers"));
+			tableContainer.setBorder(BorderFactory.createTitledBorder("Table des Paniers"));
 		}
 	}
 
@@ -117,29 +121,30 @@ public class VentePanel extends CentralPanel {
 			venteForm.setModel(venteModel);
 		}
 		else if (selectedPart.equals("Panier")) {
-            panierPanel.setModel( listePanierModel.getPanier(row));
+            this.panierModel = listePanierModel.getPanier(row);
+            panierPanel.setModel( this.panierModel );
 		}
 	}
 
 	@Override
 	public void updateTable() {
 		if (selectedPart.equals("Article")) {
-			updateArticleTableau();
+			updateArticleTable();
 		} else if (selectedPart.equals("Panier")) {
-			updatePanierTableau();
+			updatePanierTable();
 		}
 	}
 
 	@Override
 	public void updateTableFromRef(String ref) {
 		if (selectedPart.equals("Article")) {
-			updateArticleTableauFromRef(ref);
+			updateArticleTableFromRef(ref);
 		} else if (selectedPart.equals("Panier")) {
-			updatePanierTableauFromRef(ref);
+			updatePanierTableFromRef(ref);
 		}
 	}
 
-	public void updateArticleTableau() {
+	public void updateArticleTable() {
 		try {
 			listeArticleModel = new ListeArticleModel(EpicerieController.getInstance().getListArticles());
 			table.setModel(listeArticleModel);
@@ -151,7 +156,7 @@ public class VentePanel extends CentralPanel {
 		}
 	}
 
-	public void updateArticleTableauFromRef(String ref) {
+	public void updateArticleTableFromRef(String ref) {
 		try {
 			listeArticleModel = new ListeArticleModel(EpicerieController.getInstance().getArticlesByRef(ref));
 			table.setModel(listeArticleModel);
@@ -163,7 +168,7 @@ public class VentePanel extends CentralPanel {
 		}
 	}
 
-	public void updatePanierTableau() {
+	public void updatePanierTable() {
 		try {
 			listePanierModel = new ListePanierModel(EpicerieController.getInstance().getListPaniers());
 			table.setModel(listePanierModel);
@@ -175,7 +180,7 @@ public class VentePanel extends CentralPanel {
 		}
 	}
 
-	public void updatePanierTableauFromRef(String ref) {
+	public void updatePanierTableFromRef(String ref) {
 		try {
 			listePanierModel = new ListePanierModel(EpicerieController.getInstance().getPaniersByRef(ref));
 			table.setModel(listePanierModel);

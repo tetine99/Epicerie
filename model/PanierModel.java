@@ -37,12 +37,20 @@ public class PanierModel {
 		ventes.add(vente);
 	}
     
+    public VenteModel getVente(int id){
+        return ventes.get(id);
+    }
+
+    public VenteModel delVente(int id){
+        return ventes.remove(id);
+    }
+    
 	public double getTotal() {
         double total = 0;
         for (VenteModel v : ventes){
             total += v.getPrixTotal();
         }
-		return total;
+		return ((int)(total*100))/100.;
 	}
     
 	public double getBenefice() {

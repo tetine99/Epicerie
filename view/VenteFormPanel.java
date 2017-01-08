@@ -15,7 +15,7 @@ import fr.imie.gestionepicerie.model.VenteModel;
 
 public class VenteFormPanel extends JPanel{
     
-    private VenteModel vente;
+    private VenteModel venteModel;
 	private VentePanel parent;
 	private JTextField referenceArticle;
 	private JTextField date;
@@ -29,7 +29,7 @@ public class VenteFormPanel extends JPanel{
         this.parent = parent;
         dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         
-        this.vente = new VenteModel();
+        this.venteModel = new VenteModel();
         
         venteFormContainer = new JPanel();
         venteFormContainer.setLayout(new BoxLayout(venteFormContainer, BoxLayout.Y_AXIS));
@@ -47,14 +47,15 @@ public class VenteFormPanel extends JPanel{
         lastLine.add( uniteMesure );
         
         ajouter = new JButton("Ajouter au panier");
-        venteFormContainer.add(ajouter);
+        venteFormContainer.add( ajouter );
         
         this.add(venteFormContainer);
         
         ajouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-                VenteFormPanel.this.parent.addVenteToPanier(VenteFormPanel.this.vente);
+                venteModel.setQuantite( Double.parseDouble(quantite.getText()) );
+                parent.addVenteToPanier( venteModel );
                 reset();
                 
 			}
@@ -70,12 +71,12 @@ public class VenteFormPanel extends JPanel{
         return field;
     }
     
-    public void setModel(VenteModel vente){
-        this.vente = vente;
-        referenceArticle.setText( vente.getArticle().getReference() );
-        date.setText( dateFormat.format(vente.getDate()) );
+    public void setModel(VenteModel venteModel){
+        this.venteModel = venteModel;
+        referenceArticle.setText( venteModel.getArticle().getReference() );
+        date.setText( dateFormat.format( venteModel.getDate() ) );
         //~ quantite.setText( String.valueOf( vente.getQuantite() ) );
-		uniteMesure.setText( vente.getArticle().getUniteMesure() );
+		uniteMesure.setText( venteModel.getArticle().getUniteMesure() );
     }
 
     public void reset() {

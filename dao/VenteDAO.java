@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Statement;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
@@ -21,19 +22,23 @@ public class VenteDAO {
 	 * 
 	 * @param vente
 	 */
-	public void addVente(VenteModel vente) {
+	public VenteModel createVente(VenteModel venteModel) {
 		String sql = "insert into vente_article (date_vente, quantite, article_reference, panier_id) values (?,?,?,?)";
 		logger.debug("ajout d'une vente en base :" + sql);
 		try {
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setTimestamp(1, new Timestamp(vente.getDate().getTime()));
-			ps.setDouble(2, vente.getQuantite());
-			ps.setString(3, vente.getArticle().getReference());
-			ps.setInt(4, vente.getParent().getId());
+			PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			ps.setTimestamp(1, new Timestamp(venteModel.getDate().getTime()));
+			ps.setDouble(2, venteModel.getQuantite());
+			ps.setString(3, venteModel.getArticle().getReference());
+			ps.setInt(4, venteModel.getParent().getId());
 			ps.executeUpdate();
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.first();
+            venteModel.setId(generatedKeys.getInt(1));
 		} catch (SQLException e) {
 			throw new TechnicalException(e);
 		}
+        return venteModel;
 	}
 
 	/**
@@ -74,86 +79,21 @@ public class VenteDAO {
 	}
 
 	/**
-	 * methode pour recuperer le benefice en fonction des ventes
+	 * methode pour supprimer une vente de la base de donnée
 	 * 
-	 * @return
+	 * @param VenteModel
 	 */
-	public double getRecette() {
-		String sql = "select * from article, vente_article where reference = article_reference";
-
-		try {
-
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			double somme = 0;
-
-			while (rs.next()) {
-				ArticleModel article = new ArticleModel();
-
-				if (rs.getDate("date_vente") != null)
-					;
-
-				article.setPrixAchat(rs.getDouble("prix_achat"));
-				article.setPrixVente(rs.getDouble("prix_vente"));
-
-				double nb = rs.getDouble("quantite");
-
-				double achat = article.getPrixAchat();
-				double vente = article.getPrixVente();
-				somme += (vente - achat) * nb;
-
-			}
-			return arrondi(somme, 2);
-		} catch (SQLException e) {
-			throw new TechnicalException(e);
-		}
-
-	}
-
-	/**
-	 * methode pour recuperer le benefice des vente dans un intervalle de date
-	 * donnée
-	 * 
-	 * @param dateDebut
-	 * @param dateFin
-	 * @return double recette
-	 */
-	public double getRecetteByDate(String dateDebut, String dateFin) {
-		String sql = "select * from article right join vente_article on reference = article_reference where date_vente between ? and ?";
+	public void delVente(VenteModel venteModel) {
+		String sql = "delete from vente_article where id_vente = ?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, dateDebut);
-			ps.setString(2, dateFin);
-
-			ResultSet rs = ps.executeQuery();
-			double somme = 0;
-
-			while (rs.next()) {
-				ArticleModel article = new ArticleModel();
-
-				if (rs.getDate("date_vente") != null)
-					;
-
-				article.setPrixAchat(rs.getDouble("prix_achat"));
-				article.setPrixVente(rs.getDouble("prix_vente"));
-
-				double nb = rs.getDouble("quantite");
-
-				double achat = article.getPrixAchat();
-				double vente = article.getPrixVente();
-				somme += (vente - achat) * nb;
-
-			}
-
-			return arrondi(somme, 2);
+			ps.setString(1, String.valueOf( venteModel.getId() ) );
+			ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new TechnicalException(e);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-	}
-
-	public static double arrondi(double a, int b) {
-		return (double) ((int) (a * Math.pow(10, b) + .5)) / Math.pow(10, b);
 	}
 
 }
