@@ -82,7 +82,6 @@ public class Fenetre extends JFrame {
 				Fenetre.super.dispose();
 			}
 		};
-		dialog.build();
 		dialog.center();
 		dialog.setVisible(true);
 	}

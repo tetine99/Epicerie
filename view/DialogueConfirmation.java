@@ -18,26 +18,20 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public abstract class DialogueConfirmation extends JDialog {
-
 	
 	// attribut
 	private JFrame parent;
+    private JLabel titre;
 
 	// constructeur
 	public DialogueConfirmation(JFrame fenetre) {
 		super(fenetre, true);
 		this.parent = fenetre;
-	}
-
-	public void build() {
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-
-		JLabel titre = new JLabel("Voulez-vous quitter l'application ?");
-
+		this.titre = new JLabel("Voulez-vous quitter l'application ?");
+		this.titre.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+		this.titre.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		this.getContentPane().add(titre);
-		titre.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-		titre.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-
 		this.addButtons();
 		this.pack();
 	}
@@ -68,9 +62,7 @@ public abstract class DialogueConfirmation extends JDialog {
 		this.getContentPane().add(panel);
 	}
 
-	public void onConfirm() {
-
-	}
+	public void onConfirm() {}
 
 	public void center() {
 		Point origin = parent.getLocation();
