@@ -65,16 +65,17 @@ public class PanierPanel extends JPanel{
         lastLine.add( new JLabel("Total : ") );
         total = new JLabel("");
         lastLine.add( total );
-        valider = new JButton("Validation et Paiement");
+        valider = new JButton("Paiement");
         lastLine.add( valider );
-        annuler = new JButton("Annuler");
-        lastLine.add( annuler );
+        //~ annuler = new JButton("Supprimer Panier");
+        //~ lastLine.add( annuler );
         
 		supprimer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
                 if (selected>-1){
                     parent.delVenteFromPanierByLineNumber(selected);
+                    parent.updateTable();
                 }
 			}
 		});
@@ -86,12 +87,12 @@ public class PanierPanel extends JPanel{
 			}
 		});
 
-		annuler.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				parent.delPanier();
-			}
-		});
+		//~ annuler.addActionListener(new ActionListener() {
+			//~ @Override
+			//~ public void actionPerformed(ActionEvent arg0) {
+				//~ parent.delPanier();
+			//~ }
+		//~ });
 
 		tableau.addMouseListener(new MouseAdapter() {
 			@Override

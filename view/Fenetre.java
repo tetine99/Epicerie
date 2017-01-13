@@ -38,7 +38,7 @@ public class Fenetre extends JFrame {
 	public void makeMenu() {
 		JMenuBar menu = new JMenuBar();
 		// stock
-		JMenuItem stockMenu = new JMenuItem("Stock");
+		JMenuItem stockMenu = new JMenuItem("Gestion du Stock");
 		stockMenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -48,7 +48,7 @@ public class Fenetre extends JFrame {
 		menu.add(stockMenu);
 
 		// vente
-		JMenuItem venteMenu = new JMenuItem("Vente");
+		JMenuItem venteMenu = new JMenuItem("Caisse Enregistreuse");
 		venteMenu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

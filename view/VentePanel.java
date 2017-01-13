@@ -84,6 +84,7 @@ public class VentePanel extends CentralPanel {
         panierModel.addVente( venteModel );
         panierPanel.setModel( panierModel );
         panierPanel.refresh();
+        updateTable();
 	}
 
 	public void validPanier() {
@@ -105,10 +106,10 @@ public class VentePanel extends CentralPanel {
 	public void onChangePart() {
 		updateTable();
 		if (selectedPart.equals("Article")) {
-			tableContainer.setBorder(BorderFactory.createTitledBorder("Table des Articles"));
+			tableContainer.setBorder(BorderFactory.createTitledBorder("Tableau des Articles"));
 
 		} else if (selectedPart.equals("Panier")) {
-			tableContainer.setBorder(BorderFactory.createTitledBorder("Table des Paniers"));
+			tableContainer.setBorder(BorderFactory.createTitledBorder("Tableau des Paniers"));
 		}
 	}
 
