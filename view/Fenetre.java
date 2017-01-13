@@ -24,7 +24,7 @@ public class Fenetre extends JFrame {
 		this.getContentPane().setLayout(new FlowLayout());
 		makeMenu();
 		stock = new StockPanel();
-		vente = new VentePanel();
+		vente = new VentePanel(Fenetre.this);
 
 		this.getContentPane().add(stock);
         this.setSize(1000, 600);

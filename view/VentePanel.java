@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.JFrame;
 
 import fr.imie.gestionepicerie.controller.EpicerieController;
 import fr.imie.gestionepicerie.exception.BusinessException;
@@ -33,12 +34,15 @@ public class VentePanel extends CentralPanel {
 	private PanierModel panierModel;
 	private PanierPanel panierPanel;
 	private JButton openPanier;
+    private TicketCaisse ticketCaisse;
 
-	public VentePanel() {
+	public VentePanel(JFrame fenetre) {
 		super();
 
 		venteForm = new VenteFormPanel(this);
 		panierPanel = new PanierPanel(this);
+        ticketCaisse = new TicketCaisse(fenetre);
+        ticketCaisse.setVisible(false);
 
 		this.rightPart.add(venteForm);
 		this.rightPart.add(panierPanel);
@@ -88,7 +92,7 @@ public class VentePanel extends CentralPanel {
 	}
 
 	public void validPanier() {
-		System.out.println("validPanier");
+        ticketCaisse.setModel(panierModel);
 	}
 
 	public void delPanier() {

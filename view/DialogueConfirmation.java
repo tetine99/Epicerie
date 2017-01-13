@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 /**
  * 
- * classe qui créee une popup de confirmation
+ * classe qui créer un ticket de caisse
  *
  */
 @SuppressWarnings("serial")
