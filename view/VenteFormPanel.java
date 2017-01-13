@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -54,9 +55,14 @@ public class VenteFormPanel extends JPanel{
         ajouter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-                venteModel.setQuantite( Double.parseDouble(quantite.getText()) );
-                parent.addVenteToPanier( venteModel );
-                reset();
+                try{
+                	venteModel.setQuantite( Double.parseDouble(quantite.getText()) );
+                    parent.addVenteToPanier( venteModel );
+                    reset();
+                }catch (Exception e ){
+                	onError(e);
+                }
+				
                 
 			}
 		});
@@ -83,6 +89,16 @@ public class VenteFormPanel extends JPanel{
 		quantite.setText("");
 		uniteMesure.setText("");
         
+	}	private void onError(Exception e) {
+		
+		switch (e.getMessage()) {
+		case "empty String":
+			JOptionPane.showMessageDialog(this, "Veuillez selectionnez un article et saisir la quantité ", "Warning" , JOptionPane.WARNING_MESSAGE);
+			break;
+		
+		}
+		
+		System.out.println(e.getMessage());
 	}
 
 }
