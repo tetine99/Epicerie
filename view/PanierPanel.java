@@ -107,11 +107,9 @@ public class PanierPanel extends JPanel{
 		this.repaint();
 	}
     private void onError(Exception e) {
-    if (selected == -1 ) {
-         JOptionPane.showMessageDialog(this, "Veuillez selectionnez une vente avant de la supprimer ");
-    }
-                   
-    System.out.println(e.getMessage());
-}	
+        if (selected == -1 ) {
+             JOptionPane.showMessageDialog(this, "Veuillez selectionnez une vente avant de la supprimer ");
+        }
+    }	
 	
 }

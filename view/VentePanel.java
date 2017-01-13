@@ -93,6 +93,7 @@ public class VentePanel extends CentralPanel {
 
 	public void validPanier() {
         ticketCaisse.setModel(panierModel);
+        getPanierModel();
 	}
 
 	public void delPanier() {
