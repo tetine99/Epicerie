@@ -2,8 +2,6 @@ package fr.imie.gestionepicerie.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
 
 @SuppressWarnings("serial")

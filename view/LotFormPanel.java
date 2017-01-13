@@ -46,9 +46,9 @@ public class LotFormPanel extends JPanel {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         
 
-		datePicker = addDateField(2016, 11, 20);
+		datePicker = addDateField(2017, 00, 01);
         addField( "Date d'achat : ", datePicker );
-        datePicker2 = addDateField(2016, 11, 20);
+        datePicker2 = addDateField(2017, 00, 01);
         addField( "Date de Péremption : ", datePicker2 );
 		quantite = new JTextField(3);
         quantite.setToolTipText("Quantité de l'article dans le lot");

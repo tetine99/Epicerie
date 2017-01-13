@@ -6,7 +6,8 @@ import fr.imie.gestionepicerie.controller.EpicerieController;
 import fr.imie.gestionepicerie.exception.BusinessException;
 import javax.swing.*;
 import java.util.*;
-
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.*;
 
 @SuppressWarnings("serial")
@@ -15,6 +16,8 @@ public abstract class CentralPanel extends JPanel {
     private JPanel leftPart;
     protected JPanel rightPart;
     private JPanel toolbar;
+    private JPanel recherche;
+    private JPanel topPart;
     private JComboBox<String> partChoice;
     private JTextField searchField;
     private JButton searchButton;
@@ -30,6 +33,7 @@ public abstract class CentralPanel extends JPanel {
         leftPart = new JPanel();
         leftPart.setLayout(new BoxLayout(leftPart, BoxLayout.Y_AXIS));
         toolbar = new JPanel();
+        recherche = new JPanel();
 		searchField = new JTextField(20);
 		partChoice = new JComboBox<>();
         searchButton = new JButton("Rechercher");
@@ -37,16 +41,20 @@ public abstract class CentralPanel extends JPanel {
         table = new JTable();
         rightPart = new JPanel();
         rightPart.setLayout(new BoxLayout(rightPart, BoxLayout.Y_AXIS));
-        
+        topPart = new JPanel();
         
         toolbar.add( partChoice );
-        toolbar.add( searchField );
-        toolbar.add( searchButton );
+        recherche.add( searchField );
+        recherche.add( searchButton );
+        topPart.add(toolbar);
+        topPart.add(recherche);
         tableContainer.add( new JScrollPane( table ) );
-        leftPart.add( toolbar );
+        leftPart.add( topPart );
+       
         leftPart.add( tableContainer );
         this.add( leftPart );
         this.add( rightPart );
+       
         
         
         ItemListener itemListener = new ItemListener() {
@@ -72,7 +80,10 @@ public abstract class CentralPanel extends JPanel {
 				}
 			}
 		});
-        
+        recherche.setBorder(BorderFactory.createLineBorder(Color.black));
+		recherche.setBorder(BorderFactory.createTitledBorder("Recherche par réference"));
+		toolbar.setBorder(BorderFactory.createLineBorder(Color.black));
+		toolbar.setBorder(BorderFactory.createTitledBorder("Partie"));
     }
 
     public abstract void onChangePart();

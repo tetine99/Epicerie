@@ -121,6 +121,9 @@ public class ArticleDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		catch(Exception e2){
+			e2.printStackTrace();
+		}
 
 	}
 

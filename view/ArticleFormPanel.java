@@ -28,7 +28,6 @@ public class ArticleFormPanel extends JPanel {
 	private JTextField prixAchat;
 	private JTextField prixVente;
 	private JTextField libelle;
-
 	/**
 	 * constructeur avec parametre
 	 * 
@@ -135,6 +134,7 @@ public class ArticleFormPanel extends JPanel {
 
 				try {
 					if (bool == false) {
+						
 						makeArticle(article);
 						EpicerieController.getInstance().addArticle(article);
 						reset();
@@ -142,6 +142,7 @@ public class ArticleFormPanel extends JPanel {
 					}
 
 					else if (bool == true) {
+						
 						makeArticle(article);
 						EpicerieController.getInstance().modifArticle(article, article.getReference());
 						reset();
@@ -162,16 +163,21 @@ public class ArticleFormPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				EpicerieController.getInstance().delArticle(reference.getText());
-				reset();
-				parent.updateTable();
-
+				if (reference.getText().equals("") ){
+					JOptionPane.showMessageDialog(parent, "veuillez selectionnez un article");
+				}
+					EpicerieController.getInstance().delArticle(reference.getText());
+					reset()	;
+					parent.updateTable();
+			
+				
 			}
 		});
+		
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.setBorder(BorderFactory.createTitledBorder("Formulaire Article"));
 		this.add(buttonPane);
-
+		
 	}
 
 
@@ -193,32 +199,20 @@ public class ArticleFormPanel extends JPanel {
 	 * 
 	 * @param e
 	 */
-	private void onError(BusinessException e) {
-		switch (e.getCode()) {
-		case "reference.blank":
-			JOptionPane.showMessageDialog(this, "Erreur : champ reference incorrect ");
-			break;
 
-		case "libelle.blank":
-			JOptionPane.showMessageDialog(this, "Erreur : champ libelle incorrect ");
-			break;
-
-		case "reference.duplicate":
-			JOptionPane.showMessageDialog(this, "Erreur : reference deja utilisée ");
-			break;
-
-		case "prixAchat.blank":
-			JOptionPane.showMessageDialog(this, "Erreur : champ prix achat incorrect ");
-			break;
-		case "prixVente.blank":
-			JOptionPane.showMessageDialog(this, "Erreur : champ prix vente incorrect ");
-		}
-
-	}
 
 	private void onError(Exception e) {
-
-		JOptionPane.showMessageDialog(this, "Erreur : impossible de créer l'article");
+		if (e.getMessage().contains("Duplicata")) {
+			JOptionPane.showMessageDialog(this, "Erreur : reference deja utilisée ", "Warning" , JOptionPane.WARNING_MESSAGE);
+		}
+		
+		switch (e.getMessage()) {
+		case "empty String":
+			JOptionPane.showMessageDialog(this, "Erreur : un des champs de saisie est vide ", "Warning" , JOptionPane.WARNING_MESSAGE);
+			break;
+		
+		}
+		
 		System.out.println(e.getMessage());
 	}
 
@@ -281,7 +275,7 @@ public class ArticleFormPanel extends JPanel {
 
 		}
 		bool = true;
-		System.out.println("ArticleForm : " + article);
+		
 		this.setModeModif(false);
 	}
 

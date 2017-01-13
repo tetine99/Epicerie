@@ -9,18 +9,14 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import fr.imie.gestionepicerie.controller.EpicerieController;
 import fr.imie.gestionepicerie.model.ArticleModel;
-import fr.imie.gestionepicerie.model.ListeArticleCaisseModel;
-import fr.imie.gestionepicerie.model.ListeVenteModel;
 import fr.imie.gestionepicerie.model.PanierModel;
-import fr.imie.gestionepicerie.model.VenteModel;
 import fr.imie.gestionepicerie.model.ListeVentePanierModel;
 
 
@@ -70,12 +66,15 @@ public class PanierPanel extends JPanel{
 		supprimer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-                if (selected>-1){
-                    parent.delVenteFromPanierByLineNumber(selected);
-                    parent.updateTable();
-                }
-			}
-		});
+				try{
+	                   parent.delVenteFromPanierByLineNumber(selected);
+	                   parent.updateTable();
+	               }
+	                   catch(Exception e) {
+	                   onError(e);	
+	               }
+	              }
+	         });
         
 		valider.addActionListener(new ActionListener() {
 			@Override
@@ -107,6 +106,12 @@ public class PanierPanel extends JPanel{
 		this.revalidate();
 		this.repaint();
 	}
-    
+    private void onError(Exception e) {
+    if (selected == -1 ) {
+         JOptionPane.showMessageDialog(this, "Veuillez selectionnez une vente avant de la supprimer ");
+    }
+                   
+    System.out.println(e.getMessage());
+}	
 	
 }

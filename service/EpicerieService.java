@@ -99,7 +99,7 @@ public class EpicerieService {
 		return articleDAO.getListArticlesCaisseByRef(ref);
 	}
 
-	public void delArticle(String ref) {
+	public void delArticle(String ref)  {
 		articleDAO.delArticle(ref);
 	}
 

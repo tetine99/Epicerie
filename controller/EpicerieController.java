@@ -59,7 +59,7 @@ public class EpicerieController {
 		return epicerieService.getArticleByRef(reference);
 	}
 	
-	public void delArticle(String ref) {
+	public void delArticle(String ref)  {
 		epicerieService.delArticle(ref);
 	}
 
